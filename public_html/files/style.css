@@ -30,7 +30,42 @@ td {
 #matrixA, #matrixB, #result{
     float: left;
     font-family: monospace;
+    /* position: fixed; */
+    /* opacity: 0.5; */
 }        
+#subBlock1,#subBlock2,#subBlock3,#subBlock4 {
+    height: 150%;
+    width: 150%;
+    /* width: 50px; */
+    position: relative;
+    /* height: 50px; */
+    opacity: 0.5;
+}
+
+#subBlock1 {
+    background: blue;
+    /* position: relative; */
+    float: left;
+    /* top: 50px; */
+    /* width: 50px; */
+    /* width: 50px; */
+    /* height: 100%; */
+    /* height: auto; */
+}
+#subBlock2 {
+    background: gold;
+    /* position: inherit; */
+    float: left;
+}
+#subBlock3 {
+    background: palevioletred;
+    float: left;
+}
+#subBlock4 {
+    background: lightpink;
+    /* position: inherit; */
+    float: left;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -133,7 +168,7 @@ input[type=number] {
     align-items: center;
     text-align:center;
     margin: 0 auto;
-    display: inline-flex;
+    /* display: inline-flex; */
 }
 .matrixP{
     float: left;

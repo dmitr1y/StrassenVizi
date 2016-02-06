@@ -45,11 +45,11 @@ function startStrassen()
       arr1= AddTo2Matrix(arr1,arr1.length);
       arr2= AddTo2Matrix(arr2,arr2.length);
   }
+  //ShowMatrix(arr1,outA);
     ShowColorMatrix(arr1,outA, "A",colorA11,colorA12,colorA21,colorA22);      
     ShowColorMatrix(arr2, outB, "B",colorB11,colorB12,colorB21,colorB22);      
     result= multi(arr1,arr2);          
-    ShowColorMatrix(result, outR, "R",colorC1,colorC2,colorC3,colorC4);
-    
+    ShowColorMatrix(result, outR, "R",colorC1,colorC2,colorC3,colorC4);    
     }
     else {
         ClearMatrixBlock();
@@ -107,7 +107,7 @@ function ShowColorMatrix (arr,out, name, color1,color2,color3,color4)
             for (var j = 0; j < arr.length; j++) {
                 var td=document.createElement("td");
                 td.id="td_"+name+"_"+i+"_"+j;
-               // td.style.borderRadius='15px';
+                td.style.borderRadius='15px';
                 if ((i<=(arr.length/2))&&(j<(arr.length/2))) {
                     td.style.backgroundColor=color1;
                 }
@@ -141,8 +141,7 @@ var subA=new Array();;
         for (var j = startJ,g=0; j < endJ; g++,j++) {
             subA[k][g]=A[i][j];
         }
-    }
-   
+    }   
   }
     if (size===2) {
         subA[0]=new Array();
@@ -172,7 +171,9 @@ function strassen (A11,A12,A21,A22,B11,B12,B21,B22)
     C2=summ(P3,P5);    
     C3=summ(P2,P4);
     C4=summ(diff(P1,P2),summ(P3,P6));
-    OutputPblock(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4);
+    if (C1.length===(SIZE/2)| C1.length===(NormSize/2)) {
+        OutputPblock(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4);
+    }
     C=compileMatrix(C1,C2,C3,C4);
     return C;
 }
@@ -419,9 +420,9 @@ function RandMatrix()
     result=DeleteArray(result);
     arr1=matrixArray(SIZE);
     arr2=matrixArray(SIZE);
-      DisplBrackets(1, "bracketSign", 0);
-    ShowMatrix(arr1,outA, "A");         
-    ShowMatrix(arr2, outB, "B"); 
+    //  DisplBrackets(1, "bracketSign", 0);
+   // ShowMatrix(arr1,outA, "A");         
+    //ShowMatrix(arr2, outB, "B"); 
     ShowMainScreen();
 }
 function DecrementSize(){

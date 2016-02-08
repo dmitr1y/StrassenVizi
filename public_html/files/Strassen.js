@@ -5,14 +5,40 @@
 var SIZE=1, NormSize=1;
 var arr1=null,arr2=null, result=null;
 
-var colorA11='rgb(91,155,213)',colorA12='rgb(237,125,49)',colorA21='rgb(165,165,165)',colorA22='rgb(255,192,0)';
-var colorB11='rgb(112,173,71)',colorB12='rgb(5,99,193)',colorB21='rgb(149,79,114)',colorB22='rgb(165,181,146)';
-var colorP1='rgb(208,146,167)',colorP2='rgb(127,111,111)',colorP3='rgb(65,138,179)',colorP4='rgb(223,83,39)',colorP5='rgb(159,41,54)',colorP6='rgb(251,238,201)',colorP7='rgb(181,139,128)';
-var colorC1='rgb(227,45,145)',colorC2='rgb(78,166,220)',colorC3='rgb(216,217,220)',colorC4='rgb(155,87,211)';
+var colorA={
+    color1:'rgb(91,155,213)',
+    color2:'rgb(237,125,49)',
+    color3:'rgb(165,165,165)',
+    color4:'rgb(255,192,0)'
+};
+var colorB={
+    color1:'rgb(112,173,71)',
+    color2:'rgb(5,99,193)',
+    color3:'rgb(149,79,114)',
+    color4:'rgb(165,181,146)'
+};
+var colorC={
+    color1:'rgb(227,45,145)',
+    color2:'rgb(78,166,220)',
+    color3:'rgb(216,217,220)',
+    color4:'rgb(155,87,211)'
+};
+var colorP={
+  color1:'rgb(208,146,167)',
+  color2:'rgb(127,111,111)',
+  color3:'rgb(65,138,179)',
+  color4:'rgb(223,83,39)',
+  color5:'rgb(159,41,54)',
+  color6:'rgb(251,238,201)',
+  color7:'rgb(181,139,128)'
+};
 
 function Initial()
 {
    document.getElementById("SizeInput").value=SIZE;
+   SIZE=16;
+   
+   RandMatrix();
 }
 function ReadSize()
 {
@@ -34,31 +60,31 @@ function startStrassen()
     NormSize=1;
     var divContent=document.getElementById("content"), divP=document.getElementById("Steps");
     divContent.style.display=divP.style.display= 'block';
-    var outR=document.getElementById("result"),
-    outA=document.getElementById("matrixA"),
-    outB=document.getElementById("matrixB");  
-     if (arr1 && arr2) {  
-         // СООБЩЕНИЕ: матрица будет расширена
-         arr1=NaNtoInt(arr1);
-         arr2=NaNtoInt(arr2);
-        if (!isExp2(arr1.length)||arr1.length===1) {        
-      arr1= AddTo2Matrix(arr1,arr1.length);
-      arr2= AddTo2Matrix(arr2,arr2.length);
-  }
-  //ShowMatrix(arr1,outA);
-    ShowColorMatrix(arr1,outA, "A",colorA11,colorA12,colorA21,colorA22);      
-    ShowColorMatrix(arr2, outB, "B",colorB11,colorB12,colorB21,colorB22);      
+    var outTOP=document.getElementById("canvasTOP");   
+    outTOP.width=outTOP.height=0;
+    
+    if (arr1 && arr2) {          
+        arr1=NaNtoInt(arr1);
+        arr2=NaNtoInt(arr2);
+        if (!isExp2(arr1.length)||arr1.length===1) { 
+            // Дополнение матрицы до размера степени двойки
+            arr1= AddTo2Matrix(arr1,arr1.length);
+            arr2= AddTo2Matrix(arr2,arr2.length);
+        }
+    
+   // ShowColorMatrix(arr1,outA, "A",colorA11,colorA12,colorA21,colorA22);      
+   // ShowColorMatrix(arr2, outB, "B",colorB11,colorB12,colorB21,colorB22);      
     result= multi(arr1,arr2);          
-    ShowColorMatrix(result, outR, "R",colorC1,colorC2,colorC3,colorC4);    
+    ShowMainMatrix(arr1,arr2,result,outTOP);   
+    //ShowColorMatrix(result, outR, "R",colorC1,colorC2,colorC3,colorC4);    
     }
     else {
-        ClearMatrixBlock();
        divContent.style.display=divP.style.display='none';
     }
 }
 
 function matrixArray(size)
-//создание матрицы
+//генерация случайной матрицы
 {  
   var arr = new Array();
   for(var i=0; i<size; i++){
@@ -69,65 +95,166 @@ function matrixArray(size)
   }
   return arr;
 }
-function ShowMatrix (arr,out, name)
-//Вывод матрицы
-{
-    if (arr) {
-        out.innerHTML="";
-        var table=document.createElement("table");
-        var tbody = document.createElement('tbody');
-        //table.id="table_"+name; 
-        table.border=1;
-        for (var i = 0; i < arr.length; i++) {
-            var tr=document.createElement("tr");
-            for (var j = 0; j < arr.length; j++) {
-                var td=document.createElement("td");
-                td.id="td_"+name+"_"+i+"_"+j;
-               // td.background='gray';
-               td.textContent=arr[i][j];                
-                tr.appendChild(td);
+
+function wrapText(context, arr, marginLeft, marginTop, lineHeight, color)
+{  
+    var left=marginLeft;
+    var top=marginTop;
+    var line = "";
+    for (var n = 0; n < arr.length; n++) {
+        left=marginLeft;
+        for (var i = 0; i < arr.length; i++) {                                  
+            line = arr[n][i];                       
+            if ((i<=(arr.length/2))&&(i<(arr.length/2))) {
+                context.fillStyle =color.color1;
             }
-            tbody.appendChild(tr);             
+            if ((n<(arr.length/2))&&(i>=(arr.length/2))) {
+                context.fillStyle =color.color2;
+            }
+            if ((n>=(arr.length/2))&&(i<( arr.length/2))) {
+                context.fillStyle =color.color3;
+            }
+             if ((n>=( arr.length/2))&&(i>=(arr.length/2))) {
+                context.fillStyle =color.color4;
+            }
+           context.fillText(line, left, top);
+           left+=20;
         }
-       table.appendChild(tbody);
-       out.appendChild(table);
-    }   
+        top += lineHeight;         
+    }
 }
-function ShowColorMatrix (arr,out, name, color1,color2,color3,color4)
-//Вывод матрицы с цветными частями
+ 
+ function wrapSign(context, marginLeft, marginTop, sign){  
+//    context.beginPath();
+//    context.moveTo(188, 150);
+//    context.quadraticCurveTo(150, 70, 188, 0);
+//    context.lineWidth = 3;
+//    // line color
+//    context.strokeStyle = "black";
+//    context.stroke();
+    context.font = "16pt Arial";
+    context.fillStyle = "#000";
+    context.fillText(sign, marginLeft, marginTop);       
+ }
+ 
+function ShowMainMatrix (arr1,arr2,arr3,out)
+//Вывод матрицы
+{    
+    var canvas = out;        
+    var context = canvas.getContext("2d");
+    context.clearRect(0, 0, 12*arr1.length, 20*arr1.length);
+    canvas.width=(20*arr1.length+40)*3;
+    canvas.height=12*arr1.length;
+    var lineHeight = 12;    
+    var marginTop = 10;
+    context.font = "8pt Arial";
+    context.fillStyle = "#000";
+    wrapText(context, arr1, 0, marginTop, lineHeight,colorA);
+    wrapText(context, arr2, 20*arr1.length+40, marginTop, lineHeight,colorB);
+    wrapText(context, arr3, 20*arr1.length*2+80, marginTop, lineHeight,colorC);
+}
+
+function wrapPblock (context, arr, marginLeft, marginTop, lineHeight, color)
 {
-    if (arr) {
-        out.innerHTML="";
-        var table=document.createElement("table");
-        var tbody = document.createElement('tbody');
-        //table.id="table_"+name;         
-        table.border=1;
-        for (var i = 0; i < arr.length; i++) {
-            var tr=document.createElement("tr");
-            for (var j = 0; j < arr.length; j++) {
-                var td=document.createElement("td");
-                td.id="td_"+name+"_"+i+"_"+j;
-                td.style.borderRadius='15px';
-                if ((i<=(arr.length/2))&&(j<(arr.length/2))) {
-                    td.style.backgroundColor=color1;
-                }
-                 if ((i<(arr.length/2))&&(j>=(arr.length/2))) {
-                    td.style.backgroundColor=color2;
-                }
-                 if ((i>=(arr.length/2))&&(j<( arr.length/2))) {
-                    td.style.backgroundColor=color3;
-                }
-                 if ((i>=( arr.length/2))&&(j>=(arr.length/2))) {
-                    td.style.backgroundColor=color4;//зеленый
-                }
-               td.textContent=arr[i][j];                
-                tr.appendChild(td);
-            }
-            tbody.appendChild(tr);             
+    var left=marginLeft;
+    var top=marginTop;
+    context.fillStyle =color;
+    var line = "";
+    for (var n = 0; n < arr.length; n++) {
+        left=marginLeft;
+        for (var i = 0; i < arr.length; i++) {                                  
+            line = arr[n][i];                                  
+           context.fillText(line, left, top);
+           left+=30;
         }
-       table.appendChild(tbody);
-       out.appendChild(table);
-    }   
+        top += lineHeight;         
+    }
+}
+
+function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4)
+{
+    var canvas=document.getElementById("canvasP"); 
+     var context = canvas.getContext("2d");
+    context.clearRect(0, 0, 12*arr1.length, 20*arr1.length);
+    canvas.width=(40*P1.length)*5;
+    canvas.height=12*(P1.length)*7 + 25*7;    
+    var marginLeft =10;
+    var lineHeight = 12;  
+    var sizeY=lineHeight*P1.length;
+    var sizeX=40*P1.length;
+    var marginTop = 25;
+    var marginLeftSign=P1.length*34.5;
+    // Signs for P1
+    wrapSign(context, marginLeftSign, sizeY/2 +5, "=");
+   wrapSign(context, marginLeftSign+sizeX, sizeY/2 +5, "+");
+   wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 +5, "x");
+   wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 +5, "+");
+   // Signs for P2
+   wrapSign(context, marginLeftSign,  sizeY/2 + sizeY + marginTop, "=");
+   wrapSign(context, marginLeftSign+sizeX,  sizeY/2 + sizeY + marginTop, "+");
+   wrapSign(context, marginLeftSign+sizeX*2,  sizeY/2 + sizeY + marginTop, "x");
+    // Signs for P3
+    wrapSign(context, marginLeftSign, sizeY/2 + 2*(sizeY + marginTop), "=");
+    wrapSign(context, marginLeftSign+sizeX, sizeY/2 + 2*(sizeY + marginTop), "x");
+    wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 + 2*(sizeY + marginTop), "-");
+    // Signs for P4
+    wrapSign(context, marginLeftSign, sizeY/2 + 3*(sizeY + marginTop), "=");
+    wrapSign(context, marginLeftSign + sizeX, sizeY/2 + 3*(sizeY + marginTop), "x");
+    wrapSign(context, marginLeftSign + sizeX*2, sizeY/2 + 3*(sizeY + marginTop), "-");    
+    // Signs for P5
+    wrapSign(context, marginLeftSign, sizeY/2 + 4*(sizeY + marginTop), "=");
+    wrapSign(context, marginLeftSign +sizeX, sizeY/2 + 4*(sizeY + marginTop), "+");
+    wrapSign(context, marginLeftSign +sizeX*2, sizeY/2 + 4*(sizeY + marginTop), "x");
+    // Signs for P6
+    wrapSign(context, marginLeftSign, sizeY/2 + 5*(sizeY + marginTop), "=");
+    wrapSign(context, marginLeftSign +sizeX, sizeY/2 + 5*(sizeY + marginTop), "-");
+    wrapSign(context, marginLeftSign +sizeX*2, sizeY/2 + 5*(sizeY + marginTop), "x");
+    wrapSign(context, marginLeftSign +sizeX*3, sizeY/2 + 5*(sizeY + marginTop), "+");
+    // Signs for P7
+    wrapSign(context, marginLeftSign, sizeY/2 + 6*(sizeY + marginTop), "=");
+    wrapSign(context, marginLeftSign+sizeX, sizeY/2 + 6*(sizeY + marginTop), "-");
+    wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 + 6*(sizeY + marginTop), "x");
+    wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 + 6*(sizeY + marginTop), "+");
+    context.font = "8pt Arial";
+    context.fillStyle = "#000";
+    //P1
+    wrapPblock(context, P1, 0, 10, lineHeight,colorP.color1);
+        wrapPblock(context, A11, marginLeft+sizeX, 10, lineHeight,colorA.color1);
+        wrapPblock(context, A22, (marginLeft+sizeX)*2, 10, lineHeight,colorA.color4);
+        wrapPblock(context, B11, (marginLeft+sizeX)*3, 10, lineHeight,colorB.color1);
+        wrapPblock(context, B22, (marginLeft+sizeX)*4, 10, lineHeight,colorB.color4);
+    //P2
+    wrapPblock(context, P2, 0, marginTop+sizeY, lineHeight,colorP.color2);
+        wrapPblock(context, A21, marginLeft+sizeX, marginTop+sizeY, lineHeight,colorA.color3);
+        wrapPblock(context, A22, (marginLeft+sizeX)*2, marginTop+sizeY, lineHeight,colorA.color4);
+        wrapPblock(context, B11, (marginLeft+sizeX)*3, marginTop+sizeY, lineHeight,colorB.color1);
+    //P3
+    wrapPblock(context, P3, 0, (marginTop+sizeY)*2, lineHeight,colorP.color3);
+        wrapPblock(context, A11, marginLeft+sizeX, (marginTop+sizeY)*2, lineHeight,colorA.color1);
+        wrapPblock(context, B12, (marginLeft+sizeX)*2, (marginTop+sizeY)*2, lineHeight,colorB.color2);
+        wrapPblock(context, B22, (marginLeft+sizeX)*3, (marginTop+sizeY)*2, lineHeight,colorB.color4);
+    //P4
+    wrapPblock(context, P4, 0, (marginTop+sizeY)*3, lineHeight,colorP.color4);
+        wrapPblock(context, A22, marginLeft+sizeX, (marginTop+sizeY)*3, lineHeight,colorA.color3);
+        wrapPblock(context, B21, (marginLeft+sizeX)*2, (marginTop+sizeY)*3, lineHeight,colorB.color2);
+        wrapPblock(context, B11, (marginLeft+sizeX)*3, (marginTop+sizeY)*3, lineHeight,colorB.color1);
+    //P5
+    wrapPblock(context, P5, 0, (marginTop+sizeY)*4, lineHeight,colorP.color5);
+        wrapPblock(context, A11, marginLeft+sizeX, (marginTop+sizeY)*4, lineHeight,colorA.color1);
+        wrapPblock(context, A12, (marginLeft+sizeX)*2, (marginTop+sizeY)*4, lineHeight,colorA.color2);
+        wrapPblock(context, B22, (marginLeft+sizeX)*3, (marginTop+sizeY)*4, lineHeight,colorB.color4);
+    //P6
+    wrapPblock(context, P6, 0, (marginTop+sizeY)*5, lineHeight,colorP.color6);
+        wrapPblock(context, A21, marginLeft+sizeX, (marginTop+sizeY)*5, lineHeight,colorA.color3);
+        wrapPblock(context, A11, (marginLeft+sizeX)*2, (marginTop+sizeY)*5, lineHeight,colorA.color1);
+        wrapPblock(context, B11, (marginLeft+sizeX)*3, (marginTop+sizeY)*5, lineHeight,colorB.color1);
+        wrapPblock(context, B12, (marginLeft+sizeX)*4, (marginTop+sizeY)*5, lineHeight,colorB.color2);
+    //P7
+    wrapPblock(context, P7, 0, (marginTop+sizeY)*6, lineHeight,colorP.color7);
+        wrapPblock(context, A12, marginLeft+sizeX, (marginTop+sizeY)*6, lineHeight,colorA.color2);
+        wrapPblock(context, A22, (marginLeft+sizeX)*2, (marginTop+sizeY)*6, lineHeight,colorA.color4);
+        wrapPblock(context, B21, (marginLeft+sizeX)*3, (marginTop+sizeY)*6, lineHeight,colorB.color3);
+        wrapPblock(context, B22, (marginLeft+sizeX)*4, (marginTop+sizeY)*6, lineHeight,colorB.color4);
 }
 function DiscreteMatrix(A,startI,startJ,endI,endJ)
 //деление матрицы на 4 части
@@ -150,7 +277,6 @@ var subA=new Array();;
     if (size<2) {
         return A;
     }
-
    return subA;
 }
 
@@ -172,109 +298,10 @@ function strassen (A11,A12,A21,A22,B11,B12,B21,B22)
     C3=summ(P2,P4);
     C4=summ(diff(P1,P2),summ(P3,P6));
     if (C1.length===(SIZE/2)| C1.length===(NormSize/2)) {
-        OutputPblock(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4);
+        ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4);
     }
     C=compileMatrix(C1,C2,C3,C4);
     return C;
-}
-
-function OutputPblock(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4)
-{
-  var outP1=document.getElementById("1p"),
-          outP1_1=document.getElementById("1p_1"),
-          outP1_2=document.getElementById("1p_2"),
-         outP2=document.getElementById("2p"), 
-         outP2_1=document.getElementById("2p_1"),
-         outP2_2=document.getElementById("2p_2"),
-         outP3=document.getElementById("3p"), 
-         outP3_1=document.getElementById("3p_1"), 
-         outP3_2=document.getElementById("3p_2"),
-         outP4=document.getElementById("4p"), 
-         outP4_1=document.getElementById("4p_1"), 
-         outP4_2=document.getElementById("4p_2"),
-         outP5=document.getElementById("5p"), 
-         outP5_1=document.getElementById("5p_1"), 
-         outP5_2=document.getElementById("5p_2"),
-         outP6=document.getElementById("6p"), 
-         outP6_1=document.getElementById("6p_1"),
-         outP7=document.getElementById("7p"), 
-         outP7_1=document.getElementById("7p_1");
- var outA11=document.getElementById("A11"),
-         outA11_1=document.getElementById("A11_1"), 
-         outA11_2=document.getElementById("A11_2"), 
-         outA11_3=document.getElementById("A11_3"),
-         outA12=document.getElementById("A12"), 
-         outA12_1=document.getElementById("A12_1"),
-         outA21=document.getElementById("A21"), 
-         outA21_1=document.getElementById("A21_1"),
-         outA22=document.getElementById("A22"), 
-         outA22_1=document.getElementById("A22_1"), 
-         outA22_2=document.getElementById("A22_2"), 
-         outA22_3=document.getElementById("A22_3");
- var outB11=document.getElementById("B11"),
-         outB11_1=document.getElementById("B11_1"),
-         outB11_2=document.getElementById("B11_2"),
-         outB11_3=document.getElementById("B11_3"),        
-         outB12=document.getElementById("B12"),
-         outB12_1=document.getElementById("B12_1"),
-         outB21=document.getElementById("B21"),
-         outB21_1=document.getElementById("B21_1"),
-         outB22=document.getElementById("B22"),
-         outB22_1=document.getElementById("B22_1"),
-         outB22_2=document.getElementById("B22_2"),
-         outB22_3=document.getElementById("B22_3");
- var outC1=document.getElementById("1c"), 
-         outC2=document.getElementById("2c"),
-         outC3=document.getElementById("3c"),
-         outC4=document.getElementById("4c");
- DisplBrackets(1, "bracketSignPblock", A11.length);
- ShowColorMatrix(C1,outC1, "C1",colorC1,colorC1,colorC1,colorC1);
- ShowColorMatrix(C2,outC2, "C2",colorC2,colorC2,colorC2,colorC2);
- ShowColorMatrix(C3,outC3, "C3",colorC3,colorC3,colorC3,colorC3);
- ShowColorMatrix(C4,outC4, "C4",colorC4,colorC4,colorC4,colorC4);
- ShowColorMatrix(P1,outP1, "P1",colorP1,colorP1,colorP1,colorP1);
- ShowColorMatrix(P2,outP2, "P2",colorP2,colorP2,colorP2,colorP2);
- ShowColorMatrix(P3,outP3, "P3",colorP3,colorP3,colorP3,colorP3);
- ShowColorMatrix(P4,outP4, "P4",colorP4,colorP4,colorP4,colorP4);
- ShowColorMatrix(P5,outP5, "P5",colorP5,colorP5,colorP5,colorP5);
- ShowColorMatrix(P6,outP6, "P6",colorP6,colorP6,colorP6,colorP6);
- ShowColorMatrix(P7,outP7, "P7",colorP7,colorP7,colorP7,colorP7);
- ShowColorMatrix(P1,outP1_1,"P1_1",colorP1,colorP1,colorP1,colorP1);
- ShowColorMatrix(P1,outP1_2,"P1_2",colorP1,colorP1,colorP1,colorP1);
- ShowColorMatrix(P2,outP2_1,"P2_1",colorP2,colorP2,colorP2,colorP2);
- ShowColorMatrix(P2,outP2_2,"P2_2",colorP2,colorP2,colorP2,colorP2);
- ShowColorMatrix(P3,outP3_1,"P3_1",colorP3,colorP3,colorP3,colorP3);
- ShowColorMatrix(P3,outP3_2,"P3_2",colorP3,colorP3,colorP3,colorP3);
- ShowColorMatrix(P4,outP4_1,"P4_1",colorP4,colorP4,colorP4,colorP4);
- ShowColorMatrix(P4,outP4_2,"P4_2",colorP4,colorP4,colorP4,colorP4);
- ShowColorMatrix(P5,outP5_1,"P5_1",colorP5,colorP5,colorP5,colorP5);
- ShowColorMatrix(P5,outP5_2,"P5_2",colorP5,colorP5,colorP5,colorP5);
- ShowColorMatrix(P6,outP6_1,"P6_1",colorP6,colorP6,colorP6,colorP6);
- ShowColorMatrix(P7,outP7_1,"P7_1",colorP7,colorP7,colorP7,colorP7);
- ShowColorMatrix(A11,outA11, "A11",colorA11,colorA11,colorA11,colorA11);
- ShowColorMatrix(A11,outA11_1, "A11_1",colorA11,colorA11,colorA11,colorA11);
- ShowColorMatrix(A11,outA11_2, "A11_2",colorA11,colorA11,colorA11,colorA11);
- ShowColorMatrix(A11,outA11_3, "A11_3",colorA11,colorA11,colorA11,colorA11);
- ShowColorMatrix(A12,outA12, "A12",colorA12,colorA12,colorA12,colorA12); 
- ShowColorMatrix(A12,outA12_1, "A12_1",colorA12,colorA12,colorA12,colorA12);
- ShowColorMatrix(A21,outA21, "A21",colorA21,colorA21,colorA21,colorA21); 
- ShowColorMatrix(A21,outA21_1, "A21_1",colorA21,colorA21,colorA21,colorA21);
- ShowColorMatrix(A22,outA22, "A22",colorA22,colorA22,colorA22,colorA22);
- ShowColorMatrix(A22,outA22_1, "A22_1",colorA22,colorA22,colorA22,colorA22); 
- ShowColorMatrix(A22,outA22_2, "A22_2",colorA22,colorA22,colorA22,colorA22); 
- ShowColorMatrix(A22,outA22_3, "A22_3",colorA22,colorA22,colorA22,colorA22);
- ShowColorMatrix(B11,outB11, "B11",colorB11,colorB11,colorB11,colorB11);
- ShowColorMatrix(B11,outB11_1, "B11_1",colorB11,colorB11,colorB11,colorB11); 
- ShowColorMatrix(B11,outB11_2, "B11_2",colorB11,colorB11,colorB11,colorB11); 
- ShowColorMatrix(B11,outB11_3, "B11_3",colorB11,colorB11,colorB11,colorB11);  
- ShowColorMatrix(B12,outB12, "B12",colorB12,colorB12,colorB12,colorB12); 
- ShowColorMatrix(B12,outB12_1, "B12_1",colorB12,colorB12,colorB12,colorB12);
- ShowColorMatrix(B21,outB21, "B21",colorB21,colorB21,colorB21,colorB21); 
- ShowColorMatrix(B21,outB21_1, "B21_1",colorB21,colorB21,colorB21,colorB21);
- ShowColorMatrix(B22,outB22, "B22",colorB22,colorB22,colorB22,colorB22);
- ShowColorMatrix(B22,outB22_1, "B22_1",colorB22,colorB22,colorB22,colorB22); 
- ShowColorMatrix(B22,outB22_2, "B22_2",colorB22,colorB22,colorB22,colorB22); 
- ShowColorMatrix(B22,outB22_3, "B22_3",colorB22,colorB22,colorB22,colorB22);
 }
 
 function summ (A,B)
@@ -343,6 +370,7 @@ function multi(A,B)
 }
 
 function compileMatrix (A1, A2,A3, A4)
+//сбор матрицы из четырех частей
 {
     var size=A1.length*2;
     var result=new Array();
@@ -371,18 +399,6 @@ function compileMatrix (A1, A2,A3, A4)
     return result;
 }
 
-function compareMatrix(A,B)
-{
-    for (var i = 0; i < A.length; i++) {
-        for (var j = 0; j < A.length; j++) {
-            if (A[i][j]!==B[i][j]) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
 function isExp2(x)
 //проверка числа на степень двойки
 {
@@ -390,8 +406,8 @@ function isExp2(x)
 }
 
 function AddTo2Matrix(arr,size)
-{
-    
+//расширение матрицы до размера степени двойки
+{    
     var tmp=size, count=0;      
         while(tmp>=2)
         {
@@ -414,15 +430,9 @@ function AddTo2Matrix(arr,size)
 }
 function RandMatrix()
 {
-    var outA=document.getElementById("matrixA"),
-    outB=document.getElementById("matrixB"),outR=document.getElementById("result"); 
-    outR.innerHTML="";
     result=DeleteArray(result);
     arr1=matrixArray(SIZE);
     arr2=matrixArray(SIZE);
-    //  DisplBrackets(1, "bracketSign", 0);
-   // ShowMatrix(arr1,outA, "A");         
-    //ShowMatrix(arr2, outB, "B"); 
     ShowMainScreen();
 }
 function DecrementSize(){
@@ -438,7 +448,6 @@ function IncrementSize(){
 }
 function Reset()
 {
-    ClearMatrixBlock ;
     document.getElementById("content").style.display=document.getElementById("Steps").style.display= 'none';    
     arr1=DeleteArray(arr1);
     arr2=DeleteArray(arr2);
@@ -446,12 +455,6 @@ function Reset()
     
 }    
 
-function ClearMatrixBlock ()
-{
-    document.getElementById("result").innerHTML=
-    document.getElementById("matrixA").innerHTML=
-    document.getElementById("matrixB").innerHTML="";
-}
 function CreateInputs (form, name) {
     var input;
     var table=document.createElement("table");
@@ -545,13 +548,11 @@ function ReadInput(InputName, arr)
 
 function InputMatrix()
 {    
-    document.getElementById("result").style.display= 
     document.getElementById("SizeManageMain").style.display= 
     document.getElementById("Steps").style.display= 
     document.getElementById("Operations").style.display= 'none';    
     document.getElementById("SizeManageInput").style.display= 'inline-block';
-    document.getElementById("content").style.display=document.getElementById("ApplyMatrix").style.display= 'block';
-    DisplBrackets(1, "bracketSign", SIZE);
+    document.getElementById("content").style.display=document.getElementById("ApplyMatrix").style.display= 'block';   
     CreateInputs(document.getElementById("matrixA"),"A");
     SetInputMatrix("A", arr1);
     CreateInputs(document.getElementById("matrixB"),"B");
@@ -561,7 +562,6 @@ function InputMatrix()
 function ShowMainScreen()
 {
     document.getElementById("SizeManageInput").style.display=document.getElementById("ApplyMatrix").style.display= 'none';
-    document.getElementById("result").style.display=
             document.getElementById("content").style.display='block';    
     document.getElementById("SizeManageMain").style.display= 'inline-block';
     document.getElementById("Operations").style.display= 'block';
@@ -576,10 +576,10 @@ function ApplyInput()
     arr1=ReadInput("A", arr1);
     arr2=ReadInput("B", arr2);
     ShowMainScreen();   
-     var outA=document.getElementById("matrixA"),
-    outB=document.getElementById("matrixB");
-   ShowColorMatrix(arr1,outA, "A",colorA11,colorA12,colorA21,colorA22);      
-    ShowColorMatrix(arr2, outB, "B",colorB11,colorB12,colorB21,colorB22);     
+//     var outA=document.getElementById("matrixA"),
+//    outB=document.getElementById("matrixB");
+//    ShowColorMatrix(arr1,outA, "A",colorA11,colorA12,colorA21,colorA22);      
+//    ShowColorMatrix(arr2, outB, "B",colorB11,colorB12,colorB21,colorB22);     
 }
 
 function DeleteArray(arr)

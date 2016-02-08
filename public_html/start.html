@@ -14,25 +14,11 @@
     <body onLoad="Initial()">       
         <script src="files/Strassen.js"></script>
         <div id="header">
-        <h1>Визуализатор алгоритма Штрассена</h1>      
+        <h1>Визуализатор алгоритма Штрассена</h1> 
+         
         </div>
         <div id="content">
-            <table>
-                <tr>
-                    <td>(A)</td>
-                    <td></td>
-                    <td>(B)</td>
-                    <td></td>
-                    <td>(С)</td>
-                </tr>
-                <tr >
-                    <td><div class="matrix"><div class="bracketSign">(</div><div id="matrixA"></div><div class="bracketSign">)</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrix"><div class="bracketSign">(</div><div id="matrixB"></div><div class="bracketSign">)</div></div></td>
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrix"><div class="bracketSign">(</div><div id="result"></div><div class="bracketSign">)</div></div></td>
-                </tr>          
-            </table>
+            <canvas id="canvasTOP"></canvas>           
         </div>      
        <div id="Menu">           
             <h3>Меню</h3>  
@@ -70,126 +56,9 @@
                         </div>
        </div>
        <div id="formuls"><img src="files/P_formuls.png"></div>
-        <div id="Steps">          
-            <table id="P_table">                       
-                <tr>
-                    <td><div class="matrixP"><div class="letter">P<sub>1</sub>:</div><div class="bracketSignPblock">(</div><div id="1p"></div><div class="bracketSignPblock">)</div></div></td>  
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="A11"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="A22"></div><div class="bracketSignPblock">))</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="B11"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="B22"></div><div class="bracketSignPblock">))</div></div></td>                 
-                </tr>                              
-                <tr>
-                     <td><div class="matrixP"><div class="letter">P<sub>2</sub>:</div><div class="bracketSignPblock">(</div><div id="2p"></div><div class="bracketSignPblock">)</div></div></td> 
-                     <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="A21"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="A22_1"></div><div class="bracketSignPblock">))</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="B11_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                     <td><div class="matrixP"><div class="letter">P<sub>3</sub>:</div><div class="bracketSignPblock">(</div><div id="3p"></div><div class="bracketSignPblock">)</div></div></td> 
-                     <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="A11_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="B12"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">-</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="B22_1"></div><div class="bracketSignPblock">))</div></div></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                 <tr>
-                    <td><div class="matrixP"><div class="letter">P<sub>4</sub>:</div><div class="bracketSignPblock">(</div><div id="4p"></div><div class="bracketSignPblock">)</div></div></td> 
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="A22_2"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="B21"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">-</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="B11_2"></div><div class="bracketSignPblock">))</div></div></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                 <tr>
-                    <td><div class="matrixP"><div class="letter">P<sub>5</sub>:</div><div class="bracketSignPblock">(</div><div id="5p"></div><div class="bracketSignPblock">)</div></div></td> 
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="A11_2"></div><div class="bracketSignPblock">)</div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="A12"></div><div class="bracketSignPblock">))</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="B22_2"></div><div class="bracketSignPblock">)</div></div></td>    
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                     <td><div class="matrixP"><div class="letter">P<sub>6</sub>:</div><div class="bracketSignPblock">(</div><div id="6p"></div><div class="bracketSignPblock">)</div></div></td> 
-                     <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="A21_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">-</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="A11_3"></div><div class="bracketSignPblock">))</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="B11_3"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="B12_1"></div><div class="bracketSignPblock">))</div></div></td>
-                                       
-                </tr>
-                <tr>
-                    <td><div class="matrixP"><div class="letter">P<sub>7</sub>:</div><div class="bracketSignPblock">(</div><div id="7p"></div><div class="bracketSignPblock">)</div></div></td> 
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="A12_1"></div><div class="bracketSignPblock">)</div></td>
-                    <td><div class="sign">-</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="A22_3"></div><div class="bracketSignPblock">))</div></div></td>
-                    <td><div class="sign">x</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">((</div><div id="B21_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="B22_3"></div><div class="bracketSignPblock">))</div></div></td>                                        
-                </tr>
-            </table>
-            <div id="HRs"><hr/></div>
-             <table id="С_table"> 
-                 <tr>
-                    <td><div class="matrixP"><div class="letter">С<sub>11</sub>:</div><div class="bracketSignPblock">(</div><div id="1c"></div><div class="bracketSignPblock">)</div></div></td>  
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="1p_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="4p_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">-</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="5p_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="7p_1"></div><div class="bracketSignPblock">)</div></div></td>
-                 </tr>
-                 <tr>
-                    <td><div class="matrixP"><div class="letter">C<sub>12</sub>:</div><div class="bracketSignPblock">(</div><div id="2c"></div><div class="bracketSignPblock">)</div></div></td>  
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="3p_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="5p_2"></div><div class="bracketSignPblock">)</div></div></td>                    
-                 </tr>
-                  <tr>
-                    <td><div class="matrixP"><div class="letter">C<sub>21</sub>:</div><div class="bracketSignPblock">(</div><div id="3c"></div><div class="bracketSignPblock">)</div></div></td>  
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="2p_1"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="4p_2"></div><div class="bracketSignPblock">)</div></div></td>                    
-                 </tr>
-                 <tr>
-                    <td><div class="matrixP"><div class="letter">C<sub>22</sub>:</div><div class="bracketSignPblock">(</div><div id="4c"></div><div class="bracketSignPblock">)</div></div></td>  
-                    <td><div class="sign">=</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="1p_2"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">-</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="2p_2"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="3p_2"></div><div class="bracketSignPblock">)</div></div></td>
-                    <td><div class="sign">+</div></td>
-                    <td><div class="matrixP"><div class="bracketSignPblock">(</div><div id="6p_1"></div><div class="bracketSignPblock">)</div></div></td>
-                 </tr>
-             </table>
+        <div id="Steps">      
+            <canvas id="canvasP"></canvas>           
+            <div id="HRs"><hr/></div>            
        </div>                              
     </body>
 </html>

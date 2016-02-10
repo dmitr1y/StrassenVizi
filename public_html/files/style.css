@@ -16,44 +16,6 @@
     position: relative;
     font-family: sans-serif;
 }
-table {
-    border-collapse: collapse;
-    border: 0px;
-}
-
-td {
-    text-align:center;
-    vertical-align:middle;
-    font-family: inherit;
-    border-radius: 5px;
-}      
-#matrixA, #matrixB, #result{
-    float: left;
-    font-family: monospace;
-}        
-#subBlock1,#subBlock2,#subBlock3,#subBlock4 {
-    height: 150%;
-    width: 150%;
-    position: relative;
-    opacity: 0.5;
-}
-
-#subBlock1 {
-    background: blue;
-    float: left;
-}
-#subBlock2 {
-    background: gold;
-    float: left;
-}
-#subBlock3 {
-    background: palevioletred;
-    float: left;
-}
-#subBlock4 {
-    background: lightpink;
-    float: left;
-}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -117,14 +79,8 @@ input[type=number] {
     background: white;
     border-radius: 30px;
 }
-
 #DisplaySize{
     display: inline-block;
-}
-#P_table{
-   text-align:center;
-   vertical-align:middle;
-   nowrap: initial;
 }
 #Steps{
     position: relative;
@@ -137,33 +93,6 @@ input[type=number] {
     border-radius: 30px;
     width: 100%;
 }
-.bracketSign{
-    float:left;
-    font-size: 2em;
-    font-stretch: ultra-condensed;
-    font-family: sans-serif;
-    display: none;
-}
-.bracketSignPblock{
-    float:left;
-    font-size: 2em;
-    font-stretch: ultra-condensed;
-    font-family: sans-serif;
-    display: none;
-}
-.matrix{
-    float: left;
-    align-items: center;
-    text-align:center;
-    margin: 0 auto;
-    /* display: inline-flex; */
-}
-.matrixP{
-    float: left;
-    align-items: center;
-    text-align:center;
-    display: inline-flex;
-}
 #SizeButton{
 
 }            
@@ -172,21 +101,6 @@ input[type=number] {
     text-align: center;
     vertical-align: middle;
     font-size: large;
-}
-.sign{
-    font-size: large;
-    font-family: sans-serif;
-}
-hr {
-  border: 0;
-  border-bottom: 2px solid #ccc;
-  background: #E9F0FC;
-}
-#HRs{
-    float: left;
-    width: 100%;
-    padding: 10px 0px 10px 0px;
-    margin: 0;
 }
 #formuls{
     position: relative;
@@ -210,7 +124,6 @@ h1{
     margin: 0;
     text-transform: uppercase;
 }
-
 input[type=button] {
   color: rgb(255, 255, 255);
   border: 2px solid;
@@ -264,7 +177,6 @@ h4{
 	height: 30px;
 	margin: 5px;
 }
-
 a:link {
     color: rgb(42, 87, 160);
 }
@@ -272,11 +184,8 @@ a:link {
 a:visited {
     color: rgb(42, 87, 160);
 }
-
 a:hover {
     color: #FFFFFF;
     text-shadow: aquamarine;
     text-shadow: 1px 1px 2px #2A57A0, 0 0 1em #2A57A0;
 }
-
-

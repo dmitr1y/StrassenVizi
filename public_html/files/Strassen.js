@@ -36,7 +36,7 @@ var colorP={
 function Initial()
 {
    document.getElementById("SizeInput").value=SIZE;
-   SIZE=16;
+   SIZE=32;
    
    RandMatrix();
 }
@@ -61,8 +61,7 @@ function startStrassen()
     var divContent=document.getElementById("content"), divP=document.getElementById("Steps");
     divContent.style.display=divP.style.display= 'block';
     var outTOP=document.getElementById("canvasTOP");   
-    outTOP.width=outTOP.height=0;
-    
+    outTOP.width=outTOP.height=0;    
     if (arr1 && arr2) {          
         arr1=NaNtoInt(arr1);
         arr2=NaNtoInt(arr2);
@@ -70,13 +69,9 @@ function startStrassen()
             // Дополнение матрицы до размера степени двойки
             arr1= AddTo2Matrix(arr1,arr1.length);
             arr2= AddTo2Matrix(arr2,arr2.length);
-        }
-    
-   // ShowColorMatrix(arr1,outA, "A",colorA11,colorA12,colorA21,colorA22);      
-   // ShowColorMatrix(arr2, outB, "B",colorB11,colorB12,colorB21,colorB22);      
+        }       
     result= multi(arr1,arr2);          
     ShowMainMatrix(arr1,arr2,result,outTOP);   
-    //ShowColorMatrix(result, outR, "R",colorC1,colorC2,colorC3,colorC4);    
     }
     else {
        divContent.style.display=divP.style.display='none';
@@ -124,14 +119,9 @@ function wrapText(context, arr, marginLeft, marginTop, lineHeight, color)
     }
 }
  
- function wrapSign(context, marginLeft, marginTop, sign){  
-//    context.beginPath();
-//    context.moveTo(188, 150);
-//    context.quadraticCurveTo(150, 70, 188, 0);
-//    context.lineWidth = 3;
-//    // line color
-//    context.strokeStyle = "black";
-//    context.stroke();
+ function wrapSign(context, marginLeft, marginTop, sign)
+ {  
+    context.beginPath();
     context.font = "16pt Arial";
     context.fillStyle = "#000";
     context.fillText(sign, marginLeft, marginTop);       
@@ -156,6 +146,7 @@ function ShowMainMatrix (arr1,arr2,arr3,out)
 
 function wrapPblock (context, arr, marginLeft, marginTop, lineHeight, color)
 {
+    context.beginPath();
     var left=marginLeft;
     var top=marginTop;
     context.fillStyle =color;
@@ -171,28 +162,50 @@ function wrapPblock (context, arr, marginLeft, marginTop, lineHeight, color)
     }
 }
 
+function wrapBracket(context, x,y,height, inverse)
+{
+    context.beginPath();
+    context.lineWidth = 2;
+    var width=20;
+    if (inverse) {
+        width*=-1;
+    }    
+    context.beginPath();
+    context.moveTo(x,y);
+    context.lineTo(x+width,y);
+    context.moveTo(x,y);
+    context.lineTo(x,height);
+    context.moveTo(x,height);
+    context.lineTo(x+width,height);
+    context.stroke();
+}
+
 function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4)
 {
+    
     var canvas=document.getElementById("canvasP"); 
-     var context = canvas.getContext("2d");
-    context.clearRect(0, 0, 12*arr1.length, 20*arr1.length);
+    var context = canvas.getContext("2d");
+    context.clearRect(0, 0, 12*arr1.length, 20*arr1.length);   
     canvas.width=(40*P1.length)*5;
-    canvas.height=12*(P1.length)*7 + 25*7;    
+    canvas.height=12*(P1.length)*11 + 25*11;    
     var marginLeft =10;
     var lineHeight = 12;  
     var sizeY=lineHeight*P1.length;
     var sizeX=40*P1.length;
     var marginTop = 25;
     var marginLeftSign=P1.length*34.5;
+    context.beginPath();
     // Signs for P1
     wrapSign(context, marginLeftSign, sizeY/2 +5, "=");
-   wrapSign(context, marginLeftSign+sizeX, sizeY/2 +5, "+");
-   wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 +5, "x");
-   wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 +5, "+");
-   // Signs for P2
-   wrapSign(context, marginLeftSign,  sizeY/2 + sizeY + marginTop, "=");
-   wrapSign(context, marginLeftSign+sizeX,  sizeY/2 + sizeY + marginTop, "+");
-   wrapSign(context, marginLeftSign+sizeX*2,  sizeY/2 + sizeY + marginTop, "x");
+    wrapSign(context, marginLeftSign+sizeX, sizeY/2 +5, "+");
+    wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 +5, "x");
+    wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 +5, "+");
+    //bracket
+    wrapBracket(context,5,5,sizeY,0);
+    // Signs for P2
+    wrapSign(context, marginLeftSign,  sizeY/2 + sizeY + marginTop, "=");
+    wrapSign(context, marginLeftSign+sizeX,  sizeY/2 + sizeY + marginTop, "+");
+    wrapSign(context, marginLeftSign+sizeX*2,  sizeY/2 + sizeY + marginTop, "x");
     // Signs for P3
     wrapSign(context, marginLeftSign, sizeY/2 + 2*(sizeY + marginTop), "=");
     wrapSign(context, marginLeftSign+sizeX, sizeY/2 + 2*(sizeY + marginTop), "x");
@@ -217,8 +230,8 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
     wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 + 6*(sizeY + marginTop), "+");
     context.font = "8pt Arial";
     context.fillStyle = "#000";
-    //P1
-    wrapPblock(context, P1, 0, 10, lineHeight,colorP.color1);
+    //P1   
+    wrapPblock(context, P1, 10, 15, lineHeight,colorP.color1);
         wrapPblock(context, A11, marginLeft+sizeX, 10, lineHeight,colorA.color1);
         wrapPblock(context, A22, (marginLeft+sizeX)*2, 10, lineHeight,colorA.color4);
         wrapPblock(context, B11, (marginLeft+sizeX)*3, 10, lineHeight,colorB.color1);
@@ -255,7 +268,27 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
         wrapPblock(context, A22, (marginLeft+sizeX)*2, (marginTop+sizeY)*6, lineHeight,colorA.color4);
         wrapPblock(context, B21, (marginLeft+sizeX)*3, (marginTop+sizeY)*6, lineHeight,colorB.color3);
         wrapPblock(context, B22, (marginLeft+sizeX)*4, (marginTop+sizeY)*6, lineHeight,colorB.color4);
+    //line
+    wrapLine(context, 0,(marginTop+sizeY)*7,  canvas.width);
+    //C1
+    
+    //C2
+    
+    //C3
+    
+    //C4
+    
 }
+
+function wrapLine(context, x,y, width)
+{
+    context.beginPath();
+    context.lineWidth = 4;
+    context.moveTo(x,y); 
+    context.lineTo(width,y);
+    context.stroke();
+}
+
 function DiscreteMatrix(A,startI,startJ,endI,endJ)
 //деление матрицы на 4 части
 {

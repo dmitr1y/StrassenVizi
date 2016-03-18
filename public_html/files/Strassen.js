@@ -148,11 +148,13 @@ function wrapPblock (context, arr, marginLeft, marginTop, lineHeight, color)
 {
     context.beginPath();
     var left=marginLeft;
-    var top=marginTop;
+    var top=marginTop+7;
     context.fillStyle =color;
+    var sizeY=12*arr.length;
+    var sizeX=31*arr.length;
     var line = "";
     for (var n = 0; n < arr.length; n++) {
-        left=marginLeft;
+        left=marginLeft+10;
         for (var i = 0; i < arr.length; i++) {                                  
             line = arr[n][i];                                  
            context.fillText(line, left, top);
@@ -160,12 +162,14 @@ function wrapPblock (context, arr, marginLeft, marginTop, lineHeight, color)
         }
         top += lineHeight;         
     }
+    wrapMatrixBrackets(context,sizeX,sizeY,marginLeft,marginTop);
 }
 
 function wrapBracket(context, x,y,height, inverse)
 {
     context.beginPath();
     context.lineWidth = 2;
+    height+=5;
     var width=20;
     if (inverse) {
         width*=-1;
@@ -174,15 +178,20 @@ function wrapBracket(context, x,y,height, inverse)
     context.moveTo(x,y);
     context.lineTo(x+width,y);
     context.moveTo(x,y);
-    context.lineTo(x,height);
-    context.moveTo(x,height);
-    context.lineTo(x+width,height);
+    context.lineTo(x,height+5);
+    context.moveTo(x,height+5);
+    context.lineTo(x+width,height+5);
     context.stroke();
 }
 
-function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4)
+function wrapMatrixBrackets(context, matrixWidth,matrixHeight, marginLeft,marginTop)
 {
-    
+    wrapBracket(context,marginLeft,marginTop,matrixHeight,0);
+    wrapBracket(context,marginLeft+matrixWidth,marginTop,matrixHeight,1);
+}
+
+function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,C3,C4)
+{  
     var canvas=document.getElementById("canvasP"); 
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, 12*arr1.length, 20*arr1.length);   
@@ -201,7 +210,11 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
     wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 +5, "x");
     wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 +5, "+");
     //bracket
-    wrapBracket(context,5,5,sizeY,0);
+//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,5,5);
+//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,marginLeft+sizeX,5);
+//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,2*(marginLeft+sizeX),5);
+//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,3*(marginLeft+sizeX),5);
+//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,4*(marginLeft+sizeX),5);
     // Signs for P2
     wrapSign(context, marginLeftSign,  sizeY/2 + sizeY + marginTop, "=");
     wrapSign(context, marginLeftSign+sizeX,  sizeY/2 + sizeY + marginTop, "+");
@@ -231,7 +244,7 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
     context.font = "8pt Arial";
     context.fillStyle = "#000";
     //P1   
-    wrapPblock(context, P1, 10, 15, lineHeight,colorP.color1);
+    wrapPblock(context, P1, 0, 10, lineHeight,colorP.color1);
         wrapPblock(context, A11, marginLeft+sizeX, 10, lineHeight,colorA.color1);
         wrapPblock(context, A22, (marginLeft+sizeX)*2, 10, lineHeight,colorA.color4);
         wrapPblock(context, B11, (marginLeft+sizeX)*3, 10, lineHeight,colorB.color1);
@@ -269,7 +282,7 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
         wrapPblock(context, B21, (marginLeft+sizeX)*3, (marginTop+sizeY)*6, lineHeight,colorB.color3);
         wrapPblock(context, B22, (marginLeft+sizeX)*4, (marginTop+sizeY)*6, lineHeight,colorB.color4);
     //line
-    wrapLine(context, 0,(marginTop+sizeY)*7,  canvas.width);
+    wrapLine(context, 0,(marginTop+sizeY)*7, canvas.width);
     //C1
     
     //C2
@@ -277,6 +290,11 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
     //C3
     
     //C4
+    
+}
+
+function wrapMatrixParts(M11,M12,M21,M22,context,marginLeft,MarginTop)
+{
     
 }
 
@@ -633,8 +651,7 @@ function IncrementSizeInput(){
 
 function DecrementSizeInput(){
    DecrementSize();
-    InputMatrix();
-    
+    InputMatrix();  
 }
 
 function ReadSizeInput()

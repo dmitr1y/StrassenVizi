@@ -117,6 +117,7 @@ function wrapText(context, arr, marginLeft, marginTop, lineHeight, color)
         }
         top += lineHeight;         
     }
+   
 }
  
  function wrapSign(context, marginLeft, marginTop, sign)
@@ -140,6 +141,7 @@ function ShowMainMatrix (arr1,arr2,arr3,out)
     context.font = "8pt Arial";
     context.fillStyle = "#000";
     wrapText(context, arr1, 0, marginTop, lineHeight,colorA);
+      wrapMatrixBrackets(context,20*arr1.length,12*arr1.length,0,0);
     wrapText(context, arr2, 20*arr1.length+40, marginTop, lineHeight,colorB);
     wrapText(context, arr3, 20*arr1.length*2+80, marginTop, lineHeight,colorC);
 }
@@ -162,8 +164,7 @@ function wrapPblock (context, arr, marginLeft, marginTop, lineHeight, color)
         }
         top += lineHeight;         
     }
-    alert("marginTop:"+marginTop);
-    wrapMatrixBrackets(context,sizeX,sizeY,marginLeft,marginTop);
+    wrapMatrixBrackets(context,sizeX,sizeY,marginLeft,marginTop-7);
 }
 
 function wrapBracket(context, startPosX,startPosY,height, inverse)
@@ -291,11 +292,6 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
     //C3
     
     //C4
-    
-}
-
-function wrapMatrixParts(M11,M12,M21,M22,context,marginLeft,MarginTop)
-{
     
 }
 

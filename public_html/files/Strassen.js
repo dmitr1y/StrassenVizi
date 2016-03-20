@@ -162,10 +162,11 @@ function wrapPblock (context, arr, marginLeft, marginTop, lineHeight, color)
         }
         top += lineHeight;         
     }
+    alert("marginTop:"+marginTop);
     wrapMatrixBrackets(context,sizeX,sizeY,marginLeft,marginTop);
 }
 
-function wrapBracket(context, x,y,height, inverse)
+function wrapBracket(context, startPosX,startPosY,height, inverse)
 {
     context.beginPath();
     context.lineWidth = 2;
@@ -175,12 +176,12 @@ function wrapBracket(context, x,y,height, inverse)
         width*=-1;
     }    
     context.beginPath();
-    context.moveTo(x,y);
-    context.lineTo(x+width,y);
-    context.moveTo(x,y);
-    context.lineTo(x,height+5);
-    context.moveTo(x,height+5);
-    context.lineTo(x+width,height+5);
+    context.moveTo(startPosX,startPosY);
+    context.lineTo(startPosX+width,startPosY);
+    context.moveTo(startPosX,startPosY);
+    context.lineTo(startPosX,startPosY+height+5);
+    context.moveTo(startPosX,startPosY+height+5);
+    context.lineTo(startPosX+width,startPosY+height+5);
     context.stroke();
 }
 

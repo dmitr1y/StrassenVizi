@@ -29,14 +29,14 @@ var colorP={
   color3:'rgb(65,138,179)',
   color4:'rgb(223,83,39)',
   color5:'rgb(159,41,54)',
-  color6:'rgb(251,238,201)',
+  color6:'#996600',
   color7:'rgb(181,139,128)'
 };
 
 function Initial()
 {
    document.getElementById("SizeInput").value=SIZE;
-   SIZE=32;
+   SIZE=8;
    
    RandMatrix();
 }
@@ -141,7 +141,7 @@ function ShowMainMatrix (arr1,arr2,arr3,out)
     context.font = "8pt Arial";
     context.fillStyle = "#000";
     wrapText(context, arr1, 0, marginTop, lineHeight,colorA);
-      wrapMatrixBrackets(context,20*arr1.length,12*arr1.length,0,0);
+    wrapMatrixBrackets(context,20*arr1.length,12*arr1.length-marginTop,0,0);
     wrapText(context, arr2, 20*arr1.length+40, marginTop, lineHeight,colorB);
     wrapText(context, arr3, 20*arr1.length*2+80, marginTop, lineHeight,colorC);
 }
@@ -206,94 +206,76 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
     var marginTop = 25;
     var marginLeftSign=P1.length*34.5;
     context.beginPath();
-    // Signs for P1
-    wrapSign(context, marginLeftSign, sizeY/2 +5, "=");
-    wrapSign(context, marginLeftSign+sizeX, sizeY/2 +5, "+");
-    wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 +5, "x");
-    wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 +5, "+");
-    //bracket
-//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,5,5);
-//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,marginLeft+sizeX,5);
-//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,2*(marginLeft+sizeX),5);
-//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,3*(marginLeft+sizeX),5);
-//    wrapMatrixBrackets(context,sizeX-10*P1.length,sizeY,4*(marginLeft+sizeX),5);
-    // Signs for P2
-    wrapSign(context, marginLeftSign,  sizeY/2 + sizeY + marginTop, "=");
-    wrapSign(context, marginLeftSign+sizeX,  sizeY/2 + sizeY + marginTop, "+");
-    wrapSign(context, marginLeftSign+sizeX*2,  sizeY/2 + sizeY + marginTop, "x");
-    // Signs for P3
-    wrapSign(context, marginLeftSign, sizeY/2 + 2*(sizeY + marginTop), "=");
-    wrapSign(context, marginLeftSign+sizeX, sizeY/2 + 2*(sizeY + marginTop), "x");
-    wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 + 2*(sizeY + marginTop), "-");
-    // Signs for P4
-    wrapSign(context, marginLeftSign, sizeY/2 + 3*(sizeY + marginTop), "=");
-    wrapSign(context, marginLeftSign + sizeX, sizeY/2 + 3*(sizeY + marginTop), "x");
-    wrapSign(context, marginLeftSign + sizeX*2, sizeY/2 + 3*(sizeY + marginTop), "-");    
-    // Signs for P5
-    wrapSign(context, marginLeftSign, sizeY/2 + 4*(sizeY + marginTop), "=");
-    wrapSign(context, marginLeftSign +sizeX, sizeY/2 + 4*(sizeY + marginTop), "+");
-    wrapSign(context, marginLeftSign +sizeX*2, sizeY/2 + 4*(sizeY + marginTop), "x");
-    // Signs for P6
-    wrapSign(context, marginLeftSign, sizeY/2 + 5*(sizeY + marginTop), "=");
-    wrapSign(context, marginLeftSign +sizeX, sizeY/2 + 5*(sizeY + marginTop), "-");
-    wrapSign(context, marginLeftSign +sizeX*2, sizeY/2 + 5*(sizeY + marginTop), "x");
-    wrapSign(context, marginLeftSign +sizeX*3, sizeY/2 + 5*(sizeY + marginTop), "+");
-    // Signs for P7
-    wrapSign(context, marginLeftSign, sizeY/2 + 6*(sizeY + marginTop), "=");
-    wrapSign(context, marginLeftSign+sizeX, sizeY/2 + 6*(sizeY + marginTop), "-");
-    wrapSign(context, marginLeftSign+sizeX*2, sizeY/2 + 6*(sizeY + marginTop), "x");
-    wrapSign(context, marginLeftSign+sizeX*3, sizeY/2 + 6*(sizeY + marginTop), "+");
     context.font = "8pt Arial";
     context.fillStyle = "#000";
-    //P1   
-    wrapPblock(context, P1, 0, 10, lineHeight,colorP.color1);
-        wrapPblock(context, A11, marginLeft+sizeX, 10, lineHeight,colorA.color1);
-        wrapPblock(context, A22, (marginLeft+sizeX)*2, 10, lineHeight,colorA.color4);
-        wrapPblock(context, B11, (marginLeft+sizeX)*3, 10, lineHeight,colorB.color1);
-        wrapPblock(context, B22, (marginLeft+sizeX)*4, 10, lineHeight,colorB.color4);
-    //P2
-    wrapPblock(context, P2, 0, marginTop+sizeY, lineHeight,colorP.color2);
-        wrapPblock(context, A21, marginLeft+sizeX, marginTop+sizeY, lineHeight,colorA.color3);
-        wrapPblock(context, A22, (marginLeft+sizeX)*2, marginTop+sizeY, lineHeight,colorA.color4);
-        wrapPblock(context, B11, (marginLeft+sizeX)*3, marginTop+sizeY, lineHeight,colorB.color1);
-    //P3
-    wrapPblock(context, P3, 0, (marginTop+sizeY)*2, lineHeight,colorP.color3);
-        wrapPblock(context, A11, marginLeft+sizeX, (marginTop+sizeY)*2, lineHeight,colorA.color1);
-        wrapPblock(context, B12, (marginLeft+sizeX)*2, (marginTop+sizeY)*2, lineHeight,colorB.color2);
-        wrapPblock(context, B22, (marginLeft+sizeX)*3, (marginTop+sizeY)*2, lineHeight,colorB.color4);
-    //P4
-    wrapPblock(context, P4, 0, (marginTop+sizeY)*3, lineHeight,colorP.color4);
-        wrapPblock(context, A22, marginLeft+sizeX, (marginTop+sizeY)*3, lineHeight,colorA.color3);
-        wrapPblock(context, B21, (marginLeft+sizeX)*2, (marginTop+sizeY)*3, lineHeight,colorB.color2);
-        wrapPblock(context, B11, (marginLeft+sizeX)*3, (marginTop+sizeY)*3, lineHeight,colorB.color1);
-    //P5
-    wrapPblock(context, P5, 0, (marginTop+sizeY)*4, lineHeight,colorP.color5);
-        wrapPblock(context, A11, marginLeft+sizeX, (marginTop+sizeY)*4, lineHeight,colorA.color1);
-        wrapPblock(context, A12, (marginLeft+sizeX)*2, (marginTop+sizeY)*4, lineHeight,colorA.color2);
-        wrapPblock(context, B22, (marginLeft+sizeX)*3, (marginTop+sizeY)*4, lineHeight,colorB.color4);
-    //P6
-    wrapPblock(context, P6, 0, (marginTop+sizeY)*5, lineHeight,colorP.color6);
-        wrapPblock(context, A21, marginLeft+sizeX, (marginTop+sizeY)*5, lineHeight,colorA.color3);
-        wrapPblock(context, A11, (marginLeft+sizeX)*2, (marginTop+sizeY)*5, lineHeight,colorA.color1);
-        wrapPblock(context, B11, (marginLeft+sizeX)*3, (marginTop+sizeY)*5, lineHeight,colorB.color1);
-        wrapPblock(context, B12, (marginLeft+sizeX)*4, (marginTop+sizeY)*5, lineHeight,colorB.color2);
-    //P7
-    wrapPblock(context, P7, 0, (marginTop+sizeY)*6, lineHeight,colorP.color7);
-        wrapPblock(context, A12, marginLeft+sizeX, (marginTop+sizeY)*6, lineHeight,colorA.color2);
-        wrapPblock(context, A22, (marginLeft+sizeX)*2, (marginTop+sizeY)*6, lineHeight,colorA.color4);
-        wrapPblock(context, B21, (marginLeft+sizeX)*3, (marginTop+sizeY)*6, lineHeight,colorB.color3);
-        wrapPblock(context, B22, (marginLeft+sizeX)*4, (marginTop+sizeY)*6, lineHeight,colorB.color4);
-    //line
-    wrapLine(context, 0,(marginTop+sizeY)*7, canvas.width);
-    //C1
-    
-    //C2
-    
-    //C3
-    
-    //C4
-    
+    var args = [];    
+    args[0]=P1;
+    args[1]=A11;
+    args[2]=A22;
+    args[3]=B11;
+    args[4]=B22;    
+    args[5]=P2;
+    args[6]=A21;
+    args[7]=A22;
+    args[8]=B11;    
+    args[9]=P3;
+    args[10]=A11;
+    args[11]=B12;
+    args[12]=B22;    
+    args[13]=P4;
+    args[14]=A22;
+    args[15]=B21;
+    args[16]=B11;    
+    args[17]=P5;
+    args[18]=A11;
+    args[19]=A12;
+    args[20]=B22;    
+    args[21]=P6;
+    args[22]=A21;
+    args[23]=A11;
+    args[24]=B11;
+    args[25]=B12;   
+    args[26]=P7;
+    args[27]=A12;
+    args[28]=A22;
+    args[29]=B21;
+    args[30]=B22;
+    args[31]=C1;
+    args[32]=P1;
+    args[33]=P4;
+    args[34]=P5;
+    args[35]=P7;
+    args[36]=C2;
+    args[37]=P3;
+    args[38]=P5;
+    args[39]=C3;
+    args[40]=P2;
+    args[41]=P4;
+    args[42]=C4;
+    args[43]=P1;
+    args[44]=P2;
+    args[45]=P3;
+    args[46]=P6;
+    var symbArr=['=','+','x','+','=','+','x','=','x','-','=','x','-','=','+','x','=','-','x','+','=','-','x','+',
+        '=','+','-','+','=','+','=','+','=','-','+','-'];
+    var arrSizes=[5,4,4,4,4,5,5,5,3,3,5];
+    for (var i = 0,top=10,cur=0,signcount=0; i < 11; i++,top+=marginTop+sizeY) {
+        for (var j = 0,left=0; j < arrSizes[i]; j++,left+=marginLeft+sizeX) {
+            wrapPblock(context, args[cur], left, top, lineHeight,colorP.color1);
+            if (arrSizes[i]!==(j+1)) {                           
+            wrapSign(context, left+marginLeftSign, top+sizeY/2 +5,symbArr[signcount]);
+            signcount++;
+        }
+            cur++;     
+            context.font = "8pt Arial";
+            context.fillStyle = "#000";
+        }
+        if (i===7) {
+            wrapLine(context, 0,top-marginTop+10, canvas.width);   
+        }  
+    }
 }
+
 
 function wrapLine(context, x,y, width)
 {

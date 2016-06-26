@@ -172,7 +172,7 @@ function wrapBracket(context, startPosX,startPosY,height, inverse)
     context.beginPath();
     context.lineWidth = 2;
     height+=5;
-    var width=10;
+    var width=20;
     if (inverse) {
         width*=-1;
     }    
@@ -197,30 +197,65 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
     var canvas=document.getElementById("canvasP"); 
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, 12*arr1.length, 20*arr1.length);   
-    canvas.width=(44*P1.length)*5;
+    canvas.width=(40*P1.length)*5;
     canvas.height=12*(P1.length)*11 + 25*11;    
     var marginLeft =10;
     var lineHeight = 12;  
     var sizeY=lineHeight*P1.length;
-    var sizeX=37*P1.length;
+    var sizeX=40*P1.length;
     var marginTop = 25;
-    //var marginLeftSign=P1.length*32;
+    var marginLeftSign=P1.length*34.5;
     context.beginPath();
-    context.restore;
     context.font = "8pt Arial";
     context.fillStyle = "#000";
     var args = [];    
-    args[0]=P1; args[1]=A11;    args[2]=A22;    args[3]=B11;    args[4]=B22;    
-    args[5]=P2;    args[6]=A21;    args[7]=A22;    args[8]=B11;    
-    args[9]=P3;    args[10]=A11;    args[11]=B12;    args[12]=B22;    
-    args[13]=P4;    args[14]=A22;    args[15]=B21;    args[16]=B11;    
-    args[17]=P5;    args[18]=A11;    args[19]=A12;    args[20]=B22;    
-    args[21]=P6;    args[22]=A21;    args[23]=A11;    args[24]=B11;    args[25]=B12;   
-    args[26]=P7;    args[27]=A12;    args[28]=A22;    args[29]=B21;    args[30]=B22;
-    args[31]=C1;    args[32]=P1;    args[33]=P4;    args[34]=P5;    args[35]=P7;
-    args[36]=C2;    args[37]=P3;    args[38]=P5;
-    args[39]=C3;    args[40]=P2;    args[41]=P4;
-    args[42]=C4;    args[43]=P1;    args[44]=P2;    args[45]=P3;    args[46]=P6;
+    args[0]=P1;
+    args[1]=A11;
+    args[2]=A22;
+    args[3]=B11;
+    args[4]=B22;    
+    args[5]=P2;
+    args[6]=A21;
+    args[7]=A22;
+    args[8]=B11;    
+    args[9]=P3;
+    args[10]=A11;
+    args[11]=B12;
+    args[12]=B22;    
+    args[13]=P4;
+    args[14]=A22;
+    args[15]=B21;
+    args[16]=B11;    
+    args[17]=P5;
+    args[18]=A11;
+    args[19]=A12;
+    args[20]=B22;    
+    args[21]=P6;
+    args[22]=A21;
+    args[23]=A11;
+    args[24]=B11;
+    args[25]=B12;   
+    args[26]=P7;
+    args[27]=A12;
+    args[28]=A22;
+    args[29]=B21;
+    args[30]=B22;
+    args[31]=C1;
+    args[32]=P1;
+    args[33]=P4;
+    args[34]=P5;
+    args[35]=P7;
+    args[36]=C2;
+    args[37]=P3;
+    args[38]=P5;
+    args[39]=C3;
+    args[40]=P2;
+    args[41]=P4;
+    args[42]=C4;
+    args[43]=P1;
+    args[44]=P2;
+    args[45]=P3;
+    args[46]=P6;
     var symbArr=['=','+','x','+','=','+','x','=','x','-','=','x','-','=','+','x','=','-','x','+','=','-','x','+',
         '=','+','-','+','=','+','=','+','=','-','+','-'];
     var arrSizes=[5,4,4,4,4,5,5,5,3,3,5];
@@ -228,7 +263,7 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
         for (var j = 0,left=0; j < arrSizes[i]; j++,left+=marginLeft+sizeX) {
             wrapPblock(context, args[cur], left, top, lineHeight,colorP.color1);
             if (arrSizes[i]!==(j+1)) {                           
-            wrapSign(context, left+sizeX*0.88, top+sizeY/2 +5,symbArr[signcount]);
+            wrapSign(context, left+marginLeftSign, top+sizeY/2 +5,symbArr[signcount]);
             signcount++;
         }
             cur++;     
@@ -239,8 +274,8 @@ function ShowPMatrix(P1,P2,P3,P4,P5,P6,P7,A11,A12,A21,A22,B11,B12,B21,B22,C1,C2,
             wrapLine(context, 0,top-marginTop+10, canvas.width);   
         }  
     }
-    context.closePath;
 }
+
 
 function wrapLine(context, x,y, width)
 {

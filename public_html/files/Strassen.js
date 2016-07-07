@@ -545,9 +545,12 @@ function InputMatrix()
 {
     document.getElementById("SizeManageMain").style.display =
             document.getElementById("Steps").style.display =
+            document.getElementById("canvasTOP").style.display =
             document.getElementById("Operations").style.display = 'none';
     document.getElementById("SizeManageInput").style.display = 'inline-block';
     document.getElementById("content").style.display = document.getElementById("ApplyMatrix").style.display = 'block';
+    document.getElementById("matrixA").style.display = 'inline-block';
+    document.getElementById("matrixB").style.cssText = 'display:inline-block ;margin-left:3%';
     CreateInputs(document.getElementById("matrixA"), "A");
     SetInputMatrix("A", arr1);
     CreateInputs(document.getElementById("matrixB"), "B");
@@ -556,8 +559,12 @@ function InputMatrix()
 
 function ShowMainScreen()
 {
-    document.getElementById("SizeManageInput").style.display = document.getElementById("ApplyMatrix").style.display = 'none';
-    document.getElementById("content").style.display = 'block';
+    document.getElementById("SizeManageInput").style.display =
+            document.getElementById("matrixA").style.display =
+            document.getElementById("matrixB").style.display =
+            document.getElementById("ApplyMatrix").style.display = 'none';
+    document.getElementById("content").style.display = 
+            document.getElementById("canvasTOP").style.display ='block';
     document.getElementById("SizeManageMain").style.display = 'inline-block';
     document.getElementById("Operations").style.display = 'block';
     startStrassen();
@@ -571,10 +578,10 @@ function ApplyInput()
     arr1 = ReadInput("A", arr1);
     arr2 = ReadInput("B", arr2);
     ShowMainScreen();
-//     var outA=document.getElementById("matrixA"),
-//    outB=document.getElementById("matrixB");
-//    ShowColorMatrix(arr1,outA, "A",colorA11,colorA12,colorA21,colorA22);      
-//    ShowColorMatrix(arr2, outB, "B",colorB11,colorB12,colorB21,colorB22);     
+    var outA = document.getElementById("matrixA"),
+            outB = document.getElementById("matrixB");
+    ShowColorMatrix(arr1, outA, "A", colorA11, colorA12, colorA21, colorA22);
+    ShowColorMatrix(arr2, outB, "B", colorB11, colorB12, colorB21, colorB22);
 }
 
 function DeleteArray(arr)

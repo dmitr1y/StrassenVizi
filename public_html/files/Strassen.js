@@ -117,7 +117,7 @@ function wrapText(context, arr, marginLeft, marginTop, lineHeight, color)
                 context.fillStyle = color.color4;
             }
             context.fillText(line, left, top);
-            left += 20;
+            left += 24;
         }
         top += lineHeight;
     }
@@ -138,16 +138,18 @@ function ShowMainMatrix(arr1, arr2, arr3, out)
     var canvas = out;
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, 12 * arr1.length, 20 * arr1.length);
-    canvas.width = (20 * arr1.length + 40) * 3;
-    canvas.height = 12 * arr1.length;
+    canvas.width = (24 * arr1.length + 40) * 3;
+    canvas.height = 12 * arr1.length+6;
     var lineHeight = 12;
-    var marginTop = 10;
+    var marginTop = 12;
     context.font = "8pt Arial";
     context.fillStyle = "#000";
-    wrapText(context, arr1, 0, marginTop, lineHeight, colorA);
-    wrapMatrixBrackets(context, 20 * arr1.length, 12 * arr1.length - marginTop, 0, 0);
-    wrapText(context, arr2, 20 * arr1.length + 40, marginTop, lineHeight, colorB);
-    wrapText(context, arr3, 20 * arr1.length * 2 + 80, marginTop, lineHeight, colorC);
+    wrapText(context, arr1, 6, marginTop, lineHeight, colorA);
+    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop+3, 0, 2);
+    wrapText(context, arr2, 24 * arr1.length + 46, marginTop, lineHeight, colorB);
+    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop+3, 23 * arr1.length + 46, 2);
+    wrapText(context, arr3, 24 * arr1.length * 2 + 82, marginTop, lineHeight, colorC);
+    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop+3, (24 * arr1.length + 40)*2, 2);
 }
 
 function wrapMatrix(context, matrix, marginLeft, marginTop, lineHeight)
@@ -563,8 +565,8 @@ function ShowMainScreen()
             document.getElementById("matrixA").style.display =
             document.getElementById("matrixB").style.display =
             document.getElementById("ApplyMatrix").style.display = 'none';
-    document.getElementById("content").style.display = 
-            document.getElementById("canvasTOP").style.display ='block';
+    document.getElementById("content").style.display =
+            document.getElementById("canvasTOP").style.display = 'block';
     document.getElementById("SizeManageMain").style.display = 'inline-block';
     document.getElementById("Operations").style.display = 'block';
     startStrassen();

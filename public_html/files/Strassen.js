@@ -150,19 +150,19 @@ function ShowMainMatrix(arr1, arr2, arr3, out)
     wrapText(context, arr3, 20 * arr1.length * 2 + 80, marginTop, lineHeight, colorC);
 }
 
-function wrapMatrix(context, arr, marginLeft, marginTop, lineHeight, color)
+function wrapMatrix(context, matrix, marginLeft, marginTop, lineHeight)
 {
     context.beginPath();
     var left = marginLeft;
     var top = marginTop + 7;
-    context.fillStyle = color;
-    var sizeY = 12 * arr.length;
-    var sizeX = 31 * arr.length;
+    context.fillStyle = matrix.color;
+    var sizeY = 12 * matrix.array.length;
+    var sizeX = 31 * matrix.array.length;
     var line = "";
-    for (var n = 0; n < arr.length; n++) {
+    for (var n = 0; n < matrix.array.length; n++) {
         left = marginLeft + 10;
-        for (var i = 0; i < arr.length; i++) {
-            line = arr[n][i];
+        for (var i = 0; i < matrix.array.length; i++) {
+            line = matrix.array[n][i];
             context.fillText(line, left, top);
             left += 30;
         }
@@ -201,7 +201,7 @@ function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B
     var canvas = document.getElementById("canvasP");
     var context = canvas.getContext("2d");
     context.clearRect(0, 0, 12 * arr1.length, 20 * arr1.length);
-    canvas.width = (40 * P1.array.length) * 5;
+    canvas.width = (40 * P1.array.length) * 5.1;
     canvas.height = 12 * (P1.array.length) * 11 + 25 * 11;
     var marginLeft = 10;
     var lineHeight = 12;
@@ -212,62 +212,16 @@ function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B
     context.beginPath();
     context.font = "8pt Arial";
     context.fillStyle = "#000";
-    var args = [];
-    args[0] = P1;
-    args[1] = A11;
-    args[2] = A22;
-    args[3] = B11;
-    args[4] = B22;
-    args[5] = P2;
-    args[6] = A21;
-    args[7] = A22;
-    args[8] = B11;
-    args[9] = P3;
-    args[10] = A11;
-    args[11] = B12;
-    args[12] = B22;
-    args[13] = P4;
-    args[14] = A22;
-    args[15] = B21;
-    args[16] = B11;
-    args[17] = P5;
-    args[18] = A11;
-    args[19] = A12;
-    args[20] = B22;
-    args[21] = P6;
-    args[22] = A21;
-    args[23] = A11;
-    args[24] = B11;
-    args[25] = B12;
-    args[26] = P7;
-    args[27] = A12;
-    args[28] = A22;
-    args[29] = B21;
-    args[30] = B22;
-    args[31] = C1;
-    args[32] = P1;
-    args[33] = P4;
-    args[34] = P5;
-    args[35] = P7;
-    args[36] = C2;
-    args[37] = P3;
-    args[38] = P5;
-    args[39] = C3;
-    args[40] = P2;
-    args[41] = P4;
-    args[42] = C4;
-    args[43] = P1;
-    args[44] = P2;
-    args[45] = P3;
-    args[46] = P6;
-    var symbArr = ['=', '+', 'x', '+', '=', '+', 'x', '=', 'x', '-', '=', 'x', '-', '=', '+', 'x', '=', '-', 'x', '+', '=', '-', 'x', '+',
-        '=', '+', '-', '+', '=', '+', '=', '+', '=', '-', '+', '-'];
-    var arrSizes = [5, 4, 4, 4, 4, 5, 5, 5, 3, 3, 5];
+    var mtrixArray = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C3, P1, P2, P3, P4, P5, P6, P7];
+    var matrixOrder = [12, 0, 3, 4, 7, 13, 2, 3, 4, 14, 0, 5, 7, 15, 3, 6, 4, 16, 0, 1, 7, 17, 2, 0, 4, 5,
+        18, 1, 3, 6, 7, 8, 12, 15, 16, 18, 9, 14, 16, 10, 13, 15, 11, 12, 13, 14, 17];
+    var matrixQuantityInString = [5, 4, 4, 4, 4, 5, 5, 5, 3, 3, 5];
+    var symbArr = ['=', '+', 'x', '+', '=', '+', 'x', '=', 'x', '-', '=', 'x', '-', '=', '+', 'x', '=', '-',
+        'x', '+', '=', '-', 'x', '+', '=', '+', '-', '+', '=', '+', '=', '+', '=', '-', '+', '-'];
     for (var i = 0, top = 10, cur = 0, signcount = 0; i < 11; i++, top += marginTop + sizeY) {
-        console.log("top: " + top);
-        for (var j = 0, left = 0; j < arrSizes[i]; j++, left += marginLeft + sizeX) {
-            wrapMatrix(context, args[cur].array, left, top, lineHeight, args[cur].color);
-            if (arrSizes[i] !== (j + 1)) {
+        for (var j = 0, left = 0; j < matrixQuantityInString[i]; j++, left += marginLeft + sizeX) {
+            wrapMatrix(context, mtrixArray[matrixOrder[cur]], left, top, lineHeight);
+            if (matrixQuantityInString[i] !== (j + 1)) {
                 wrapSign(context, left + marginLeftSign, top + sizeY / 2 + 5, symbArr[signcount]);
                 signcount++;
             }

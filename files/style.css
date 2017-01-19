@@ -57,7 +57,6 @@ input[type=number] {
 }
 #ApplyMatrix{
     vertical-align:middle;
-    display:none;
 }
 #SizeManageMain{
     display:inline-block; 

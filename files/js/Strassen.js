@@ -540,7 +540,7 @@ function InputMatrix()
             document.getElementById("canvasTOP").style.display =
             document.getElementById("Operations").style.display = 'none';
     document.getElementById("SizeManageInput").style.display = 'inline-block';
-    document.getElementById("content").style.display = document.getElementById("ApplyMatrix").style.display = 'block';
+    document.getElementById("content").style.display = document.getElementById("InputMenu").style.display = 'block';
     document.getElementById("matrixA").style.display = 'inline-block';
     document.getElementById("matrixB").style.cssText = 'display:inline-block ;margin-left:3%';
     CreateInputs(document.getElementById("matrixA"), "A");
@@ -554,7 +554,7 @@ function ShowMainScreen()
     document.getElementById("SizeManageInput").style.display =
             document.getElementById("matrixA").style.display =
             document.getElementById("matrixB").style.display =
-            document.getElementById("ApplyMatrix").style.display = 'none';
+            document.getElementById("InputMenu").style.display = 'none';
     document.getElementById("content").style.display =
             document.getElementById("canvasTOP").style.display = 'block';
     document.getElementById("SizeManageMain").style.display = 'inline-block';

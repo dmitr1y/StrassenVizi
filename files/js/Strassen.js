@@ -572,8 +572,6 @@ function ApplyInput()
     ShowMainScreen();
     var outA = document.getElementById("matrixA"),
             outB = document.getElementById("matrixB");
-    // ShowColorMatrix(arr1, outA, "A", colorA11, colorA12, colorA21, colorA22);
-    // ShowColorMatrix(arr2, outB, "B", colorB11, colorB12, colorB21, colorB22);
 }
 
 function DeleteArray(arr)

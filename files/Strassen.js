@@ -85,9 +85,9 @@ function startStrassen()
 function randMatrixArray(size)
 //генерация случайной матрицы
 {
-    var arr = new Array();
+    var arr = [];
     for (var i = 0; i < size; i++) {
-        arr[i] = new Array();
+        arr[i] = [];
         for (var j = 0; j < size; j++) {
             arr[i][j] = Math.floor(Math.random() * (11 + 10) - 10) + 1;
         }
@@ -250,19 +250,19 @@ function wrapLine(context, x, y, width)
 function DiscreteMatrix(A, startI, startJ, endI, endJ)
 //деление матрицы на 4 части
 {
-    var subA = new Array();
+    var subA = [];
     size = A.length;
     if (size > 2)
     {
         for (var i = startI, k = 0; i < endI; k++, i++) {
-            subA[k] = new Array();
+            subA[k] = [];
             for (var j = startJ, g = 0; j < endJ; g++, j++) {
                 subA[k][g] = A[i][j];
             }
         }
     }
     if (size === 2) {
-        subA[0] = new Array();
+        subA[0] = [];
         subA[0][0] = A[startI][startJ];
     }
     if (size < 2) {
@@ -279,25 +279,15 @@ function strassen(A11, A12, A21, A22, B11, B12, B21, B22)
     var C;
     P1 = new Matrix(multi(summ(A11.array, A22.array), summ(B11.array, B22.array)), colorP.color1);
     P2 = new Matrix(multi(summ(A21.array, A22.array), B11.array), colorP.color2);
-    ;
     P3 = new Matrix(multi(A11.array, diff(B12.array, B22.array)), colorP.color3);
-    ;
     P4 = new Matrix(multi(A22.array, diff(B21.array, B11.array)), colorP.color4);
-    ;
     P5 = new Matrix(multi(summ(A11.array, A12.array), B22.array), colorP.color5);
-    ;
     P6 = new Matrix(multi(diff(A21.array, A11.array), summ(B11.array, B12.array)), colorP.color6);
-    ;
     P7 = new Matrix(multi(diff(A12.array, A22.array), summ(B21.array, B22.array)), colorP.color7);
-    ;
     C1 = new Matrix(summ(P1.array, summ(P7.array, diff(P4.array, P5.array))), colorC.color1);
-    ;
     C2 = new Matrix(summ(P3.array, P5.array), colorC.color2);
-    ;
     C3 = new Matrix(summ(P2.array, P4.array), colorC.color3);
-    ;
     C4 = new Matrix(summ(diff(P1.array, P2.array), summ(P3.array, P6.array)), colorC.color4);
-    ;
     if (C1.array.length === (SIZE / 2) | C1.array.length === (NormSize / 2)) {
         ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4);
     }
@@ -308,17 +298,17 @@ function strassen(A11, A12, A21, A22, B11, B12, B21, B22)
 function summ(A, B)
 //cумма матриц
 {
-    var C = new Array();
+    var C = [];
     if (A.length > 1 && B.length > 1) {
 
         for (var i = 0; i < A.length; i++) {
-            C[i] = new Array();
+            C[i] = [];
             for (var j = 0; j < A.length; j++) {
                 C[i][j] = A[i][j] + B[i][j];
             }
         }
     } else {
-        C[0] = new Array();
+        C[0] = [];
         C[0][0] = A[0][0] + B[0][0];
     }
     return C;
@@ -327,17 +317,17 @@ function summ(A, B)
 function diff(A, B)
 //разность матриц
 {
-    var C = new Array();
+    var C = [];
     if (A.length > 1 && B.length > 1) {
 
         for (var i = 0; i < A.length; i++) {
-            C[i] = new Array();
+            C[i] = [];
             for (var j = 0; j < A.length; j++) {
                 C[i][j] = A[i][j] - B[i][j];
             }
         }
     } else {
-        C[0] = new Array();
+        C[0] = [];
         C[0][0] = A[0][0] - B[0][0];
         //  console.log(C[0][0]);
     }
@@ -361,8 +351,8 @@ function multi(A, B)
         B22 = new Matrix(DiscreteMatrix(B, B.length / 2, B.length / 2, B.length, B.length), colorB.color4);
         C = strassen(A11, A12, A21, A22, B11, B12, B21, B22);
     } else {
-        C = new Array();
-        C[0] = new Array();
+        C = [];
+        C[0] = [];
         C[0][0] = A[0][0] * B[0][0];
     }
     return C;
@@ -372,9 +362,9 @@ function compileMatrix(A1, A2, A3, A4)
 //сбор матрицы из четырех частей
 {
     var size = A1.length * 2;
-    var result = new Array();
+    var result = [];
     for (var i = 0, k = 0; i < size / 2; k++, i++) {
-        result[i] = new Array();
+        result[i] = [];
         for (var j = 0, g = 0; j < size / 2; g++, j++) {
             result[i][j] = A1[k][g];
         }
@@ -385,7 +375,7 @@ function compileMatrix(A1, A2, A3, A4)
         }
     }
     for (var i = size / 2, k = 0; i < size; k++, i++) {
-        result[i] = new Array();
+        result[i] = [];
         for (var j = 0, g = 0; j < size / 2; g++, j++) {
             result[i][j] = A3[k][g];
         }
@@ -420,7 +410,7 @@ function AddTo2Matrix(arr, size)
         }
     }
     for (var i = size; i < NormSize; i++) {
-        arr[i] = new Array();
+        arr[i] = [];
         for (var j = 0; j < NormSize; j++) {
             arr[i][j] = 0;
         }

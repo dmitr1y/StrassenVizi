@@ -1,0 +1,31 @@
+/* 
+    Created on : 13.01.2016, 1:41:50
+    Author     : aser0
+*/
+.txt {
+    margin: 5px 0px 5px 0px;
+}
+
+table, td, tr {
+    margin: 10px;
+    padding: 0px 5px 0px 9px;
+    font-family: serif;
+    font-weight: 600;
+    border-collapse: collapse;
+}
+
+th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    background: antiquewhite;
+}
+
+#header {
+    font-size: xx-large;
+}
+
+#compare {
+    text-align: center !important;
+    align-content: center !important;
+    vertical-align: middle !important;
+}

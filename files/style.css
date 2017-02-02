@@ -1,0 +1,213 @@
+/*     
+    Author     : Konstantinov Dmitrii
+    e-mail: aser00707@ya.ru
+*/
+body {
+    background-color: rgba(164, 195, 245, 0.24);
+    margin: 0;
+    padding: 0px 0px 0px 15px;
+    width: 96%;
+}
+
+#header {
+    width: 100%;
+    height: 40px;
+    padding: 0;
+    margin: 0px 0px 0px 27px;
+    position: relative;
+    font-family: sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    font-family: inherit;
+    width: 30px;
+    height: 12px;
+    border-radius: 7px;
+    text-align: center;
+    background: #E9F0FC;
+}
+
+#info {
+    position: relative;
+    float: right;
+    background-color: white;
+    border: solid 1px;
+    margin: 5px;
+    width: 30%;
+    height: 600px;
+    padding: 5px;
+}
+
+#Menu {
+    position: relative;
+    margin-top: 15px;
+    float: left;
+    width: 585px;
+    height: 150px;
+    padding: 0px 10px 0px;
+    background: #A4C3F5;
+    border-radius: 15px;
+}
+
+#Operations {
+    vertical-align: middle;
+    display: inline-block;
+    margin: 5px;
+}
+
+#ApplyMatrix {
+    vertical-align: middle;
+}
+
+#SizeManageMain {
+    display: inline-block;
+    margin: 5px;
+}
+
+#SizeManageInput {
+    display: none;
+    margin: 5px;
+}
+
+#content {
+    position: relative;
+    float: left;
+    margin-top: 15px;
+    display: none;
+    overflow: auto;
+    padding: 10px;
+    width: 100%;
+    height: 200px;
+    background: white;
+    border-radius: 30px;
+}
+
+#DisplaySize {
+    display: inline-block;
+}
+
+#Steps {
+    position: relative;
+    top: 15px;
+    font-family: monospace;
+    display: none;
+    padding: 10px;
+    overflow: auto;
+    background: white;
+    border-radius: 30px;
+    width: 100%;
+}
+
+.letter {
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    font-size: large;
+}
+
+#formuls {
+    position: relative;
+    margin-top: 15px;
+    float: left;
+    margin-left: 10px;
+    padding: 5px 0px 5px 5px;
+    background-color: blanchedalmond;
+    width: 260px;
+    height: 140px;
+    border-radius: 15px;
+}
+
+img {
+    width: 250px;
+    pointer-events: none;
+}
+
+h1 {
+    font-size: 44px;
+    color: #2A57A0;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+input[type=button] {
+    color: rgb(255, 255, 255);
+    border: 2px solid;
+    border-color: #2A57A0;
+    border-radius: 3px;
+    background: #2A57A0;
+    transition: 0.2s;
+}
+
+input[type=button]:hover {
+    background: rgb(233, 240, 252);
+    color: #2A57A0;
+    box-shadow: aqua;
+    box-shadow: 0 0 8px rgb(233, 240, 252);
+}
+
+input[type=button]:active {
+    background: rgb(42, 149, 208);
+    color: aliceblue;
+}
+
+#copy {
+    float: end;
+    float: end;
+    margin: 5px;
+    padding: 0;
+    font-family: monospace;
+    font-style: italic;
+    color: #2A57A0;
+    font-weight: 600;
+    height: 20px;
+}
+
+h3 {
+    color: #2A57A0;
+    font-weight: 600;
+    text-decoration: underline;
+    padding: 13px 0px 5px 15px;
+    margin: 0;
+    font-size: 22px;
+    height: 20px;
+}
+
+h4 {
+    margin: 0;
+    padding: 5px 4px 0px 5px;
+    float: left;
+    color: #022B6F;
+}
+
+#InputMenu {
+    margin: 5px;
+    padding: 0;
+    height: 30px;
+}
+
+#SizeBlock {
+    height: 30px;
+    margin: 5px;
+}
+
+a:link {
+    color: rgb(42, 87, 160);
+}
+
+a:visited {
+    color: rgb(42, 87, 160);
+}
+
+a:hover {
+    color: #FFFFFF;
+    text-shadow: aquamarine;
+    text-shadow: 1px 1px 2px #2A57A0, 0 0 1em #2A57A0;
+}

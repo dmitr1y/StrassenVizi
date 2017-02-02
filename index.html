@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--   
+    Author     : Konstantinov Dmitrii
+    e-mail: aser00707@ya.ru
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Визуализатор алгоритма Штрассена</title>
+    <link rel="icon" href="files/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="files/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body onLoad="Initial()">
+<script src="files/Strassen.js"></script>
+<div id="header">
+    <h1>Визуализатор алгоритма Штрассена</h1>
+
+</div>
+<div id="content">
+    <div id="matrixA"></div>
+    <div id="matrixB"></div>
+
+    <canvas id="canvasTOP"></canvas>
+</div>
+<div id="Menu">
+    <h3>Меню</h3>
+    <div id="SizeBlock">
+        <h4>Размерность:</h4> <input type="number" id="SizeInput">
+        <div id="SizeManageMain">
+            <input type="button" value="OK" onclick="ReadSize()">
+            <input type="button" value="-" onclick="DecrementSize()">
+            <input type="button" value="+" onclick="IncrementSize()">
+        </div>
+        <div id="SizeManageInput">
+            <input type="button" value="OK" onclick="ReadSizeInput()">
+            <input type="button" value="-" onclick="DecrementSizeInput()"/>
+            <input type="button" value="+" onclick="IncrementSizeInput()"/>
+        </div>
+    </div>
+    <div id="Operations">
+        <div id="MainMenu">
+            <input type="button" value="Очистить" onclick="Reset()">
+            <input type="button" value="Ввести свою матрицу" onclick="InputMatrix()">
+            <input type="button" value="Заполнить случайными числами" onclick="RandMatrix()">
+            <input type="button" value="Теория"
+                   onclick="window.open('files/theory.html','Теория','width=760,height=840,toolbar=0, location=0, status=0,directories=0, scrollbars=yes')">
+            <input type="button" value="?"
+                   onclick="window.open('files/help.html','Теория','width=562,height=707,toolbar=0, location=0, status=0,directories=0, scrollbars=yes')">
+        </div>
+    </div>
+    <div id="InputMenu">
+        <div id="ApplyMatrix">
+            <input type="button" value="Применить" onclick="ApplyInput()">
+            <input type="button" value="X" onclick="ShowMainScreen()">
+            <input type="button" value="Очистить" onclick="ClearInputs()">
+        </div>
+    </div>
+    <div id="copy">
+        &copy;2016 Константинов Дмитрий <a href="mailto:aser00707@ya.ru">aser00707@ya.ru</a>
+    </div>
+</div>
+<div id="formuls"><img src="files/P_formuls.png"></div>
+<div id="Steps">
+    <canvas id="canvasP"></canvas>
+</div>
+</body>
+</html>

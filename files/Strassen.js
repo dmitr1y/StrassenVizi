@@ -2,7 +2,7 @@
  Author     : Konstantinov Dmitrii
  e-mail: aser00707@ya.ru
  */
-var SIZE = 1, NormSize = 1;
+var SIZE = 8, NormSize = 1, MAXSIZE = 128; //Выше значения MAXSIZE канвас не может вывести изображения из-за слишком большого размера
 var arr1 = null, arr2 = null, result = null;
 
 var colorA = {
@@ -41,15 +41,16 @@ function Matrix(array, color) {
 
 function Initial() {
     document.getElementById("SizeInput").value = SIZE;
-    SIZE = 8;
-
     RandMatrix();
 }
 function ReadSize() {
     var SizeInput = document.getElementById("SizeInput");
     var tmp = SizeInput.value;
     if (tmp && isInt(tmp) && tmp > 0) {
-        SIZE = tmp;
+        if (tmp > MAXSIZE)
+            alert("Слишком большой размер");
+        else
+            SIZE = tmp;
     } else {
         alert("Bad size");
     }
@@ -142,7 +143,7 @@ function ShowMainMatrix(arr1, arr2, arr3, out)
     wrapText(context, arr1, 6, marginTop, lineHeight, colorA);
     wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 0, 2);
     wrapText(context, arr2, 24 * arr1.length + 46, marginTop, lineHeight, colorB);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 23 * arr1.length + 46, 2);
+    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 24 * arr1.length + 40, 2);
     wrapText(context, arr3, 24 * arr1.length * 2 + 82, marginTop, lineHeight, colorC);
     wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, (24 * arr1.length + 40) * 2, 2);
 }
@@ -546,8 +547,6 @@ function ApplyInput() {
     arr1 = ReadInput("A", arr1);
     arr2 = ReadInput("B", arr2);
     ShowMainScreen();
-    var outA = document.getElementById("matrixA"),
-        outB = document.getElementById("matrixB");
 }
 
 function DeleteArray(arr) {
@@ -588,13 +587,13 @@ function NaNtoInt(arr) {
 
 function DisplBrackets(flag, ClassName, size) {
     var divs = document.getElementsByTagName("DIV");
-    var param;
-    if (flag === 1) {
-        param = 'block';
-    }
-    if (flag === 0) {
-        param = 'none';
-    }
+    // var param;
+    // if (flag === 1) {
+    //     param = 'block';
+    // }
+    // if (flag === 0) {
+    //     param = 'none';
+    // }
     if (!size) {
         size = arr1.length > SIZE ? arr1.length : SIZE;
         if (size < NormSize) {

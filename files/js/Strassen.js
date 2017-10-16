@@ -1,29 +1,29 @@
 /*     
  Author     : Konstantinov Dmitrii
- e-mail: aser00707@ya.ru
+ e-mail: dmitriy@konstantinov.com.ru
  */
 var SIZE = 1, NormSize = 1;
 var arr1 = null, arr2 = null, result = null;
 
-var colorA = {
+const colorA = {
     color1: 'rgb(91,155,213)',
     color2: 'rgb(237,125,49)',
     color3: 'rgb(165,165,165)',
     color4: 'rgb(255,192,0)'
 };
-var colorB = {
+const colorB = {
     color1: 'rgb(112,173,71)',
     color2: 'rgb(5,99,193)',
     color3: 'rgb(149,79,114)',
     color4: 'rgb(165,181,146)'
 };
-var colorC = {
+const colorC = {
     color1: 'rgb(227,45,145)',
     color2: 'rgb(78,166,220)',
     color3: 'rgb(216,217,220)',
     color4: 'rgb(155,87,211)'
 };
-var colorP = {
+const colorP = {
     color1: 'rgb(208,146,167)',
     color2: 'rgb(127,111,111)',
     color3: 'rgb(65,138,179)',
@@ -40,9 +40,8 @@ function Matrix(array, color) {
 }
 
 function Initial() {
-    document.getElementById("SizeInput").value = SIZE;
     SIZE = 8;
-
+    document.getElementById("SizeInput").value = SIZE;
     RandMatrix();
 }
 
@@ -54,7 +53,6 @@ function ReadSize() {
     } else {
         alert("Bad size");
     }
-
 }
 
 function isInt(n) {
@@ -65,8 +63,6 @@ function startStrassen() {
     NormSize = 1;
     var divContent = document.getElementById("content"), divP = document.getElementById("Steps");
     divContent.style.display = divP.style.display = 'block';
-    var outTOP = document.getElementById("canvasTOP");
-    outTOP.width = outTOP.height = 0;
     if (arr1 && arr2) {
         arr1 = NaNtoInt(arr1);
         arr2 = NaNtoInt(arr2);
@@ -76,7 +72,7 @@ function startStrassen() {
             arr2 = AddTo2Matrix(arr2, arr2.length);
         }
         result = multi(arr1, arr2);
-        ShowMainMatrix(arr1, arr2, result, outTOP);
+        ShowMainMatrix(arr1, arr2, result);
     } else {
         divContent.style.display = divP.style.display = 'none';
     }
@@ -96,8 +92,8 @@ function randMatrixArray(size)
 }
 
 function wrapText(context, arr, marginLeft, marginTop, lineHeight, color) {
-    var left = marginLeft;
-    var top = marginTop;
+    var left = 80;
+    var top = 15;
     var line = "";
     for (var n = 0; n < arr.length; n++) {
         left = marginLeft;
@@ -116,7 +112,7 @@ function wrapText(context, arr, marginLeft, marginTop, lineHeight, color) {
                 context.fillStyle = color.color4;
             }
             context.fillText(line, left, top);
-            left += 24;
+            left += 25;
         }
         top += lineHeight;
     }
@@ -130,24 +126,39 @@ function wrapSign(context, marginLeft, marginTop, sign) {
     context.fillText(sign, marginLeft, marginTop);
 }
 
-function ShowMainMatrix(arr1, arr2, arr3, out)
+function ShowMainMatrix(arr1, arr2, arr3)
 //Вывод матрицы
 {
-    var canvas = out;
-    var context = canvas.getContext("2d");
-    context.clearRect(0, 0, 12 * arr1.length, 20 * arr1.length);
-    canvas.width = (24 * arr1.length + 40) * 3;
-    canvas.height = 12 * arr1.length + 6;
+    var mA = document.getElementById("canvasA").getContext("2d");
+    var mB = document.getElementById("canvasB").getContext("2d");
+    var mC = document.getElementById("canvasC").getContext("2d");
+
+    var mWidth=25 * arr1.length + 100,
+        mHeight=12 * arr1.length + 100;
+    mA.width = mB.width = mC.width = mWidth;
+    mA.height = mB.height = mC.height =mHeight;
+    console.log("mWidth: "+mWidth+", mHeight: "+mHeight);
+    // mWidth=12 * arr1.length  + 3;
+    clearCanvas(mA,mHeight,mWidth);
+    clearCanvas(mB,mHeight,mWidth);
+    clearCanvas(mC,mHeight,mWidth);
+
     var lineHeight = 12;
     var marginTop = 12;
-    context.font = "8pt Arial";
-    context.fillStyle = "#000";
-    wrapText(context, arr1, 6, marginTop, lineHeight, colorA);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 0, 2);
-    wrapText(context, arr2, 24 * arr1.length + 46, marginTop, lineHeight, colorB);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 23 * arr1.length + 46, 2);
-    wrapText(context, arr3, 24 * arr1.length * 2 + 82, marginTop, lineHeight, colorC);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, (24 * arr1.length + 40) * 2, 2);
+    mA.font = mB.font = mC.font = "8pt Arial";
+    mA.fillStyle = mB.fillStyle = mC.fillStyle = "#000";
+    wrapText(mA, arr1, 10, marginTop, lineHeight, colorA);
+    wrapMatrixBrackets(mA, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+
+    wrapText(mB, arr2, 10, marginTop, lineHeight, colorB);
+    wrapMatrixBrackets(mB, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+
+    wrapText(mC, arr3, 10, marginTop, lineHeight, colorC);
+    wrapMatrixBrackets(mC, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+}
+
+function clearCanvas(context, height,weight) {
+    context.clearRect(0, 0, height, weight);
 }
 
 function wrapMatrix(context, matrix, marginLeft, marginTop, lineHeight) {
@@ -173,8 +184,8 @@ function wrapMatrix(context, matrix, marginLeft, marginTop, lineHeight) {
 function wrapBracket(context, startPosX, startPosY, height, inverse) {
     context.beginPath();
     context.lineWidth = 2;
-    height += 5;
-    var width = 20;
+    height += 10;
+    var width = 10;
     if (inverse) {
         width *= -1;
     }
@@ -523,12 +534,12 @@ function ReadInput(InputName, arr) {
 function InputMatrix() {
     document.getElementById("SizeManageMain").style.display =
         document.getElementById("Steps").style.display =
-            document.getElementById("canvasTOP").style.display =
-                document.getElementById("Operations").style.display = 'none';
+            // document.getElementById("canvasTOP").style.display =
+            document.getElementById("Operations").style.display = 'none';
     document.getElementById("SizeManageInput").style.display = 'inline-block';
     document.getElementById("content").style.display = document.getElementById("ApplyMatrix").style.display = 'block';
     document.getElementById("matrixA").style.display = 'inline-block';
-    document.getElementById("matrixB").style.cssText = 'display:inline-block ;margin-left:3%';
+    document.getElementById("matrixB").style.cssText = 'display:inline-block; margin-left:3%';
     CreateInputs(document.getElementById("matrixA"), "A");
     SetInputMatrix("A", arr1);
     CreateInputs(document.getElementById("matrixB"), "B");
@@ -541,8 +552,8 @@ function ShowMainScreen() {
             document.getElementById("matrixB").style.display =
                 document.getElementById("ApplyMatrix").style.display = 'none';
     document.getElementById("content").style.display =
-        document.getElementById("canvasTOP").style.display = 'block';
-    document.getElementById("SizeManageMain").style.display = 'inline-block';
+        // document.getElementById("canvasTOP").style.display = 'block';
+        document.getElementById("SizeManageMain").style.display = 'inline-block';
     document.getElementById("Operations").style.display = 'block';
     startStrassen();
 }

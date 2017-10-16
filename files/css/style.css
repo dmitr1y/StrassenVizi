@@ -1,0 +1,10 @@
+/*     
+    Author     : Konstantinov Dmitrii
+    e-mail: aser00707@ya.ru
+*/
+
+.canvas{
+    width: 100%;
+    height: auto;
+    overflow: auto;
+}

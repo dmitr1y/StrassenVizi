@@ -2,7 +2,7 @@
  Author     : Konstantinov Dmitrii
  e-mail: aser00707@ya.ru
  */
-var SIZE = 8, NormSize = 1, MAXSIZE = 128; //Выше значения MAXSIZE канвас не может вывести изображения из-за слишком большого размера
+var SIZE = 1, NormSize = 1;
 var arr1 = null, arr2 = null, result = null;
 
 var colorA = {
@@ -41,24 +41,26 @@ function Matrix(array, color) {
 
 function Initial() {
     document.getElementById("SizeInput").value = SIZE;
+    SIZE = 8;
+
     RandMatrix();
 }
+
 function ReadSize() {
     var SizeInput = document.getElementById("SizeInput");
     var tmp = SizeInput.value;
     if (tmp && isInt(tmp) && tmp > 0) {
-        if (tmp > MAXSIZE)
-            alert("Слишком большой размер");
-        else
-            SIZE = tmp;
+        SIZE = tmp;
     } else {
         alert("Bad size");
     }
 
 }
+
 function isInt(n) {
     return n % 1 === 0;
 }
+
 function startStrassen() {
     NormSize = 1;
     var divContent = document.getElementById("content"), divP = document.getElementById("Steps");
@@ -143,7 +145,7 @@ function ShowMainMatrix(arr1, arr2, arr3, out)
     wrapText(context, arr1, 6, marginTop, lineHeight, colorA);
     wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 0, 2);
     wrapText(context, arr2, 24 * arr1.length + 46, marginTop, lineHeight, colorB);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 24 * arr1.length + 40, 2);
+    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 23 * arr1.length + 46, 2);
     wrapText(context, arr3, 24 * arr1.length * 2 + 82, marginTop, lineHeight, colorC);
     wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, (24 * arr1.length + 40) * 2, 2);
 }
@@ -406,22 +408,26 @@ function AddTo2Matrix(arr, size)
     }
     return arr;
 }
+
 function RandMatrix() {
     result = DeleteArray(result);
     arr1 = randMatrixArray(SIZE);
     arr2 = randMatrixArray(SIZE);
     ShowMainScreen();
 }
+
 function DecrementSize() {
     if (SIZE > 1) {
         SIZE--;
         document.getElementById("SizeInput").value = SIZE;
     }
 }
+
 function IncrementSize() {
     SIZE++;
     document.getElementById("SizeInput").value = SIZE;
 }
+
 function Reset() {
     document.getElementById("content").style.display = document.getElementById("Steps").style.display = 'none';
     arr1 = DeleteArray(arr1);
@@ -480,6 +486,7 @@ function SetInputMatrix(InputName, arr) {
         SetNullInputMatrix(InputName);
     }
 }
+
 function SetNullInputMatrix(InputName) {
     for (var i = 0; i < SIZE; i++) {
         for (var j = 0; j < SIZE; j++) {
@@ -519,7 +526,7 @@ function InputMatrix() {
             document.getElementById("canvasTOP").style.display =
                 document.getElementById("Operations").style.display = 'none';
     document.getElementById("SizeManageInput").style.display = 'inline-block';
-    document.getElementById("content").style.display = document.getElementById("InputMenu").style.display = 'block';
+    document.getElementById("content").style.display = document.getElementById("ApplyMatrix").style.display = 'block';
     document.getElementById("matrixA").style.display = 'inline-block';
     document.getElementById("matrixB").style.cssText = 'display:inline-block ;margin-left:3%';
     CreateInputs(document.getElementById("matrixA"), "A");
@@ -532,7 +539,7 @@ function ShowMainScreen() {
     document.getElementById("SizeManageInput").style.display =
         document.getElementById("matrixA").style.display =
             document.getElementById("matrixB").style.display =
-                document.getElementById("InputMenu").style.display = 'none';
+                document.getElementById("ApplyMatrix").style.display = 'none';
     document.getElementById("content").style.display =
         document.getElementById("canvasTOP").style.display = 'block';
     document.getElementById("SizeManageMain").style.display = 'inline-block';
@@ -547,6 +554,10 @@ function ApplyInput() {
     arr1 = ReadInput("A", arr1);
     arr2 = ReadInput("B", arr2);
     ShowMainScreen();
+    var outA = document.getElementById("matrixA"),
+        outB = document.getElementById("matrixB");
+    ShowColorMatrix(arr1, outA, "A", colorA11, colorA12, colorA21, colorA22);
+    ShowColorMatrix(arr2, outB, "B", colorB11, colorB12, colorB21, colorB22);
 }
 
 function DeleteArray(arr) {
@@ -587,13 +598,13 @@ function NaNtoInt(arr) {
 
 function DisplBrackets(flag, ClassName, size) {
     var divs = document.getElementsByTagName("DIV");
-    // var param;
-    // if (flag === 1) {
-    //     param = 'block';
-    // }
-    // if (flag === 0) {
-    //     param = 'none';
-    // }
+    var param;
+    if (flag === 1) {
+        param = 'block';
+    }
+    if (flag === 0) {
+        param = 'none';
+    }
     if (!size) {
         size = arr1.length > SIZE ? arr1.length : SIZE;
         if (size < NormSize) {

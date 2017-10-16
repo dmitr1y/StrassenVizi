@@ -5,7 +5,6 @@
 -->
 <html>
 <head>
-    <meta charset="utf-8">
     <title>Визуализатор алгоритма Штрассена</title>
     <link rel="icon" href="files/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="files/style.css">
@@ -30,18 +29,18 @@
         <h4>Размерность:</h4> <input type="number" id="SizeInput">
         <div id="SizeManageMain">
             <input type="button" value="OK" onclick="ReadSize()">
-            <input type="button" value="-" onclick="DecrementSize()">
-            <input type="button" value="+" onclick="IncrementSize()">
+            <input type="button" id="SizeButton" value="-" onclick="DecrementSize()">
+            <input type="button" id="SizeButton" value="+" onclick="IncrementSize()">
         </div>
         <div id="SizeManageInput">
             <input type="button" value="OK" onclick="ReadSizeInput()">
-            <input type="button" value="-" onclick="DecrementSizeInput()"/>
-            <input type="button" value="+" onclick="IncrementSizeInput()"/>
+            <input type="button" id="SizeButton" value="-" onclick="DecrementSizeInput()"/>
+            <input type="button" id="SizeButton" value="+" onclick="IncrementSizeInput()"/>
         </div>
     </div>
     <div id="Operations">
         <div id="MainMenu">
-            <!--<input type="button" value="Очистить" onclick="Reset()">-->
+            <input type="button" value="Очистить" onclick="Reset()">
             <input type="button" value="Ввести свою матрицу" onclick="InputMatrix()">
             <input type="button" value="Заполнить случайными числами" onclick="RandMatrix()">
             <input type="button" value="Теория"
@@ -52,9 +51,9 @@
     </div>
     <div id="InputMenu">
         <div id="ApplyMatrix">
-            <input type="button" value="Применить" onclick="ApplyInput()">
-            <input type="button" value="X" onclick="ShowMainScreen()">
-            <input type="button" value="Очистить" onclick="ClearInputs()">
+            <input type="button" id="SizeButton" value="Применить" onclick="ApplyInput()">
+            <input type="button" id="SizeButton" value="X" onclick="ShowMainScreen()">
+            <input type="button" id="SizeButton" value="Очистить" onclick="ClearInputs()">
         </div>
     </div>
     <div id="copy">

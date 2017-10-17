@@ -8,3 +8,8 @@
     height: auto;
     overflow: auto;
 }
+
+canvas{
+    width: 100px;
+    height: 100px;
+}

@@ -94,6 +94,7 @@ function randMatrixArray(size)
 function wrapText(context, arr, marginLeft, marginTop, lineHeight, color) {
     var left = 80;
     var top = 15;
+    // lineHeight=12;
     var line = "";
     for (var n = 0; n < arr.length; n++) {
         left = marginLeft;
@@ -133,15 +134,15 @@ function ShowMainMatrix(arr1, arr2, arr3)
     var mB = document.getElementById("canvasB").getContext("2d");
     var mC = document.getElementById("canvasC").getContext("2d");
 
-    var mWidth=25 * arr1.length + 100,
-        mHeight=12 * arr1.length + 100;
-    mA.width = mB.width = mC.width = mWidth;
-    mA.height = mB.height = mC.height =mHeight;
-    console.log("mWidth: "+mWidth+", mHeight: "+mHeight);
+    var mWidth = 25 * arr1.length ,
+        mHeight = 12 * arr1.length;
+    mA.canvas.width = mB.canvas.width = mC.canvas.width = mWidth;
+    mA.canvas.height = mB.canvas.height = mC.canvas.height = mHeight;
+    console.log("mWidth: " + mWidth + ", mHeight: " + mHeight);
     // mWidth=12 * arr1.length  + 3;
-    clearCanvas(mA,mHeight,mWidth);
-    clearCanvas(mB,mHeight,mWidth);
-    clearCanvas(mC,mHeight,mWidth);
+    clearCanvas(mA, mHeight, mWidth);
+    clearCanvas(mB, mHeight, mWidth);
+    clearCanvas(mC, mHeight, mWidth);
 
     var lineHeight = 12;
     var marginTop = 12;
@@ -157,7 +158,7 @@ function ShowMainMatrix(arr1, arr2, arr3)
     wrapMatrixBrackets(mC, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 }
 
-function clearCanvas(context, height,weight) {
+function clearCanvas(context, height, weight) {
     context.clearRect(0, 0, height, weight);
 }
 
@@ -205,39 +206,61 @@ function wrapMatrixBrackets(context, matrixWidth, matrixHeight, marginLeft, marg
 }
 
 function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4) {
-    var canvas = document.getElementById("canvasP");
-    var context = canvas.getContext("2d");
-    context.clearRect(0, 0, 12 * arr1.length, 20 * arr1.length);
-    canvas.width = (40 * P1.array.length) * 5.1;
-    canvas.height = 12 * (P1.array.length) * 11 + 25 * 11;
-    var marginLeft = 10;
-    var lineHeight = 12;
-    var sizeY = lineHeight * P1.array.length;
-    var sizeX = 40 * P1.array.length;
-    var marginTop = 25;
-    var marginLeftSign = P1.array.length * 34.5;
-    context.beginPath();
-    context.font = "8pt Arial";
-    context.fillStyle = "#000";
-    var mtrixArray = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C3, P1, P2, P3, P4, P5, P6, P7];
+    var allMatrix = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4, P1, P2, P3, P4, P5, P6, P7];
+    console.log(allMatrix[1].array[0][0]+'\n');
+    // var mtrixArray = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C3, P1, P2, P3, P4, P5, P6, P7];
     var matrixOrder = [12, 0, 3, 4, 7, 13, 2, 3, 4, 14, 0, 5, 7, 15, 3, 6, 4, 16, 0, 1, 7, 17, 2, 0, 4, 5,
         18, 1, 3, 6, 7, 8, 12, 15, 16, 18, 9, 14, 16, 10, 13, 15, 11, 12, 13, 14, 17];
     var matrixQuantityInString = [5, 4, 4, 4, 4, 5, 5, 5, 3, 3, 5];
-    var symbArr = ['=', '+', 'x', '+', '=', '+', 'x', '=', 'x', '-', '=', 'x', '-', '=', '+', 'x', '=', '-',
-        'x', '+', '=', '-', 'x', '+', '=', '+', '-', '+', '=', '+', '=', '+', '=', '-', '+', '-'];
-    for (var i = 0, top = 10, cur = 0, signcount = 0; i < 11; i++, top += marginTop + sizeY) {
-        for (var j = 0, left = 0; j < matrixQuantityInString[i]; j++, left += marginLeft + sizeX) {
-            wrapMatrix(context, mtrixArray[matrixOrder[cur]], left, top, lineHeight);
-            if (matrixQuantityInString[i] !== (j + 1)) {
-                wrapSign(context, left + marginLeftSign, top + sizeY / 2 + 5, symbArr[signcount]);
-                signcount++;
-            }
-            cur++;
+    // var symbArr = ['=', '+', 'x', '+', '=', '+', 'x', '=', 'x', '-', '=', 'x', '-', '=', '+', 'x', '=', '-',
+    //     'x', '+', '=', '-', 'x', '+', '=', '+', '-', '+', '=', '+', '=', '+', '=', '-', '+', '-'];
+    var mP = {
+        name: 'P',
+        P1: {
+            order: [12, 0, 3, 4, 7]
+        },
+        P2: {
+            order: [13, 2, 3, 4]
+        },
+        P3: {
+            order: [14, 0, 5, 7]
+        },
+        P4: {
+            order: [15, 3, 6, 4]
+        },
+        P5: {
+            order: [16, 0, 1, 7]
+        },
+        P6: {
+            order: [17, 2, 0, 4, 5]
+        },
+        P7: {
+            order: [18, 1, 3, 6, 7]
+        }
+    };
+
+    var mC = {
+        name: "C",
+        C1: {
+            order: [7, 8, 12, 15, 16],
+            signs: ['']
+        },
+        C2: {
+            order: []
+        }
+    };
+    console.log('output P matrix:\n');
+
+    for (var k = 1; k <= 7; k++) {
+        console.log('output P'+k+'\n find array: '+"P" + k+"\n lenght: "+mP['P' + k].length+"\n");
+        for (var l = 1; l < mP["P" + k].order.length; l++) {
+            console.log('output P'+k+'_'+l+'\n -lenght: '+mP["P" + l].order.length+'\n');
+            console.log(' -find element: '+'P' + k + '_'+l+'\n');
+            console.log(' -order: '+mP['P'+l].order+'\n\n');
+            var context = document.getElementById('P' + k + '_'+l).getContext('2d');
             context.font = "8pt Arial";
             context.fillStyle = "#000";
-        }
-        if (i === 7) {
-            wrapLine(context, 0, top - marginTop + 10, canvas.width);
+            wrapText(context,allMatrix[mP['P'+l].order[l-1]].array,20,5,12,colorA);
         }
     }
 }

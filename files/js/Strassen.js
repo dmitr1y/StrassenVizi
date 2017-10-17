@@ -63,6 +63,7 @@ function isInt(n) {
 }
 
 function startStrassen() {
+    console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     NormSize = 1;
     var divContent = document.getElementById("content"), divP = document.getElementById("Steps");
     divContent.style.display = divP.style.display = 'block';
@@ -97,8 +98,6 @@ function randMatrixArray(size)
 function wrapText(context, arr, marginLeft, marginTop, lineHeight, color,colorMode ) {
     var left = marginLeft;
     var top = marginTop;
-    // lineHeight=12;
-    // console.log('color: '+color+"\n");
     var line = "";
     for (var n = 0; n < arr.length; n++) {
         left = marginLeft;
@@ -139,8 +138,6 @@ function ShowMainMatrix(arr1, arr2, arr3)
         mHeight = 13 * arr1.length;
     mA.canvas.width = mB.canvas.width = mC.canvas.width = mWidth;
     mA.canvas.height = mB.canvas.height = mC.canvas.height = mHeight;
-    console.log("mWidth: " + mWidth + ", mHeight: " + mHeight);
-    // mWidth=12 * arr1.length  + 3;
     clearCanvas(mA, mHeight, mWidth);
     clearCanvas(mB, mHeight, mWidth);
     clearCanvas(mC, mHeight, mWidth);
@@ -161,29 +158,6 @@ function ShowMainMatrix(arr1, arr2, arr3)
 
 function clearCanvas(context, height, weight) {
     context.clearRect(0, 0, height, weight);
-}
-
-function wrapBracket(context, startPosX, startPosY, height, inverse) {
-    context.beginPath();
-    context.lineWidth = 2;
-    height += 10;
-    var width = 10;
-    if (inverse) {
-        width *= -1;
-    }
-    context.beginPath();
-    context.moveTo(startPosX, startPosY);
-    context.lineTo(startPosX + width, startPosY);
-    context.moveTo(startPosX, startPosY);
-    context.lineTo(startPosX, startPosY + height + 5);
-    context.moveTo(startPosX, startPosY + height + 5);
-    context.lineTo(startPosX + width, startPosY + height + 5);
-    context.stroke();
-}
-
-function wrapMatrixBrackets(context, matrixWidth, matrixHeight, marginLeft, marginTop) {
-    wrapBracket(context, marginLeft, marginTop, matrixHeight, 0);
-    wrapBracket(context, marginLeft + matrixWidth, marginTop, matrixHeight, 1);
 }
 
 function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4) {
@@ -236,20 +210,18 @@ function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B
         for (var l = 0; l < mP["P" + k].order.length; l++) {
             var context = document.getElementById('P' + k + '_'+l).getContext('2d');
             context.font = "8pt Arial";
-            // context.fillStyle = "#000";
             context.canvas.width = allMatrix[mP['P'+k].order[l]].array.length*25+5;
             context.canvas.height = allMatrix[mP['P'+k].order[l]].array.length*12;
-            wrapText(context,allMatrix[mP['P'+k].order[l]].array,5,0,12,allMatrix[mP['P'+k].order[l]].color);
+            wrapText(context,allMatrix[mP['P'+k].order[l]].array,5,10,12,allMatrix[mP['P'+k].order[l]].color);
         }
     }
     for (var i=1; i<=4; i++){
         for (var j=0; j< mC["C"+i].order.length;j++){
             var cnx = document.getElementById('C' + i + '_'+j).getContext('2d');
             cnx.font = "8pt Arial";
-            // cnx.fillStyle = "#000";
             cnx.canvas.width = allMatrix[mC['C'+i].order[j]].array.length*25+5;
             cnx.canvas.height = allMatrix[mC['C'+i].order[j]].array.length*12;
-            wrapText(cnx,allMatrix[mC['C'+i].order[j]].array,5,0,12,allMatrix[mC['C'+i].order[j]].color);
+            wrapText(cnx,allMatrix[mC['C'+i].order[j]].array,5,10,12,allMatrix[mC['C'+i].order[j]].color);
         }
     }
 }
@@ -568,10 +540,6 @@ function ApplyInput() {
     arr1 = ReadInput("A", arr1);
     arr2 = ReadInput("B", arr2);
     ShowMainScreen();
-    // var outA = document.getElementById("matrixA"),
-    //     outB = document.getElementById("matrixB");
-    // ShowColorMatrix(arr1, outA, "A", colorA11, colorA12, colorA21, colorA22);
-    // ShowColorMatrix(arr2, outB, "B", colorB11, colorB12, colorB21, colorB22);
 }
 
 function DeleteArray(arr) {
@@ -579,7 +547,6 @@ function DeleteArray(arr) {
         for (var i = 0; i < arr.length; i++) {
             delete arr[i];
         }
-        delete arr;
     }
     return null;
 }
@@ -608,26 +575,4 @@ function NaNtoInt(arr) {
         }
     }
     return arr;
-}
-
-function DisplBrackets(flag, ClassName, size) {
-    var divs = document.getElementsByTagName("DIV");
-    var param;
-    if (flag === 1) {
-        param = 'block';
-    }
-    if (flag === 0) {
-        param = 'none';
-    }
-    if (!size) {
-        size = arr1.length > SIZE ? arr1.length : SIZE;
-        if (size < NormSize) {
-            size = NormSize;
-        }
-    }
-    for (var i = 0; i < divs.length; i++)
-        if (divs[i].className === ClassName) {
-            divs[i].style.display = 'block';
-            divs[i].style.fontSize = size * 12.5 + 'px';
-        }
 }

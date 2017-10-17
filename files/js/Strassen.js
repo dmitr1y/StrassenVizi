@@ -43,6 +43,7 @@ function Initial() {
     SIZE = 8;
     document.getElementById("SizeInput").value = SIZE;
     RandMatrix();
+    wrapFormulas();
 }
 
 function ReadSize() {
@@ -135,7 +136,7 @@ function ShowMainMatrix(arr1, arr2, arr3)
     var mC = document.getElementById("canvasC").getContext("2d");
 
     var mWidth = 25 * arr1.length ,
-        mHeight = 12 * arr1.length;
+        mHeight = 13 * arr1.length;
     mA.canvas.width = mB.canvas.width = mC.canvas.width = mWidth;
     mA.canvas.height = mB.canvas.height = mC.canvas.height = mHeight;
     console.log("mWidth: " + mWidth + ", mHeight: " + mHeight);
@@ -149,13 +150,13 @@ function ShowMainMatrix(arr1, arr2, arr3)
     mA.font = mB.font = mC.font = "8pt Arial";
     mA.fillStyle = mB.fillStyle = mC.fillStyle = "#000";
     wrapText(mA, arr1, 10, marginTop, lineHeight, colorA);
-    wrapMatrixBrackets(mA, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+    // wrapMatrixBrackets(mA, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 
     wrapText(mB, arr2, 10, marginTop, lineHeight, colorB);
-    wrapMatrixBrackets(mB, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+    // wrapMatrixBrackets(mB, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 
     wrapText(mC, arr3, 10, marginTop, lineHeight, colorC);
-    wrapMatrixBrackets(mC, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+    // wrapMatrixBrackets(mC, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 }
 
 function clearCanvas(context, height, weight) {
@@ -253,14 +254,16 @@ function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B
 
     for (var k = 1; k <= 7; k++) {
         console.log('output P'+k+'\n find array: '+"P" + k+"\n lenght: "+mP['P' + k].length+"\n");
-        for (var l = 1; l < mP["P" + k].order.length; l++) {
-            console.log('output P'+k+'_'+l+'\n -lenght: '+mP["P" + l].order.length+'\n');
+        for (var l = 0; l < mP["P" + k].order.length; l++) {
+            console.log('output P'+k+'_'+l+'\n -lenght: '+mP["P" + k].order.length+'\n');
             console.log(' -find element: '+'P' + k + '_'+l+'\n');
-            console.log(' -order: '+mP['P'+l].order+'\n\n');
+            console.log(' -order: '+mP['P'+k].order+'\n\n');
             var context = document.getElementById('P' + k + '_'+l).getContext('2d');
             context.font = "8pt Arial";
             context.fillStyle = "#000";
-            wrapText(context,allMatrix[mP['P'+l].order[l-1]].array,20,5,12,colorA);
+            context.canvas.width = allMatrix[mP['P'+k].order[l]].array.length*25+5;
+            context.canvas.height = allMatrix[mP['P'+k].order[l]].array.length*15;
+            wrapText(context,allMatrix[mP['P'+k].order[l]].array,5,0,12,colorA);
         }
     }
 }

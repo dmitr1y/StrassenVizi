@@ -7,9 +7,17 @@
     width: 100%;
     height: auto;
     overflow: auto;
+    display: inline-flex;
 }
 
 canvas{
-    width: 100px;
-    height: 100px;
+    /*width: 100px;*/
+    /*height: 100px;*/
+}
+.sign{
+    /*min-height: 100%;  !* Fallback for browsers do NOT support vh unit *!*/
+    /*min-height: 100vh; !* These two lines are counted as one :-)       *!*/
+    font-size: 2em;
+    display: flex;
+    align-items: center;
 }

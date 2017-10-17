@@ -21,3 +21,11 @@ canvas{
     display: flex;
     align-items: center;
 }
+.sign_group{
+    display: flex;
+    flex-direction: row;
+}
+
+td input{
+    width: 2em !important;
+}

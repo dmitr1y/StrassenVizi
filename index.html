@@ -24,8 +24,11 @@
             crossorigin="anonymous"></script>
     <script src="files/js/bootstrap.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css" integrity="sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.js" integrity="sha384-GR8SEkOO1rBN/jnOcQDFcFmwXAevSLx7/Io9Ps1rkxWp983ZIuUGfxivlF/5f5eJ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.css"
+          integrity="sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha1/katex.min.js"
+            integrity="sha384-GR8SEkOO1rBN/jnOcQDFcFmwXAevSLx7/Io9Ps1rkxWp983ZIuUGfxivlF/5f5eJ"
+            crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -33,15 +36,27 @@
 <div class="container">
     <h1 class="text-center mb-4">Визуализатор алгоритма Штрассена</h1>
     <div id="content" class="card mb-3">
-        <div class="card-header bg-info text-white"><h4>Исходные и результирующие матрицы</h4></div>
+        <div class="card-header bg-dark text-white"><h4>Исходные и результирующие матрицы</h4></div>
         <div class="card-body">
             <div id="matrixA"></div>
             <div id="matrixB"></div>
             <div class="container">
                 <div class="canvas">
+                    <span class="sign">(</span>
                     <canvas id="canvasA"></canvas>
+                    <div class="sign_group">
+                        <span class="sign">)</span>
+                        <span class="sign">*</span>
+                        <span class="sign">(</span>
+                    </div>
                     <canvas id="canvasB"></canvas>
+                    <div class="sign_group">
+                        <span class="sign">)</span>
+                        <span class="sign">=</span>
+                        <span class="sign">(</span>
+                    </div>
                     <canvas id="canvasC"></canvas>
+                    <span class="sign">)</span>
                 </div>
             </div>
         </div>
@@ -74,9 +89,12 @@
                                         <input type="button" value="Заполнить случайными числами" class="btn btn-dark"
                                                onclick="RandMatrix()">
                                         <input type="button" value="Теория" class="btn btn-dark"
-                                               onclick="window.open('files/theory.html','Теория','width=760,height=840,toolbar=0, location=0, status=0,directories=0, scrollbars=yes')">
+                                               onclick="window.open('files/theory.html','Теория',
+                                               'width=760,height=840,toolbar=0, location=0, status=0,directories=0, ' +
+                                                'scrollbars=yes')">
                                         <input type="button" value="?" class="btn btn-dark"
-                                               onclick="window.open('files/help.html','Теория','width=562,height=707,toolbar=0, location=0, status=0,directories=0, scrollbars=yes')">
+                                               onclick="window.open('files/help.html','Теория','width=562,height=707,' +
+                                                'toolbar=0, location=0, status=0,directories=0, scrollbars=yes')">
                                     </div>
                                 </div>
                             </div>
@@ -108,19 +126,26 @@
         </div>
     </div>
     <div id="Steps" class="card mb-3">
-        <div class="card-header bg-info text-white">Промежуточные матрицы</div>
+        <div class="card-header bg-dark text-white">Промежуточные матрицы</div>
         <div class="card-body">
             <div class="container">
-                <div class="card">
-                    <div class="card-header">P1</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">P1</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="P1_0"></canvas>
-                            <span class="sign">= (</span>
+                            <div class="sign_group">
+                                <span class="sign">=</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P1_1"></canvas>
                             <span class="sign"> + </span>
                             <canvas id="P1_2"></canvas>
-                            <span class="sign">) * (</span>
+                            <div class="sign_group">
+                                <span class="sign">)</span>
+                                <span class="sign">* </span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P1_3"></canvas>
                             <span class="sign"> + </span>
                             <canvas id="P1_4"></canvas>
@@ -131,16 +156,22 @@
                         <span id="P1_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">P2</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">P2</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="P2_0"></canvas>
-                            <span class="sign">= (</span>
+                            <div class="sign_group">
+                                <span class="sign">=</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P2_1"></canvas>
                             <span class="sign"> + </span>
                             <canvas id="P2_2"></canvas>
-                            <span class="sign">) *</span>
+                            <div class="sign_group">
+                                <span class="sign">)</span>
+                                <span class="sign">*</span>
+                            </div>
                             <canvas id="P2_3"></canvas>
                         </div>
                     </div>
@@ -148,14 +179,17 @@
                         <span id="P2_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">P3</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">P3</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="P3_0"></canvas>
                             <span class="sign">=</span>
                             <canvas id="P3_1"></canvas>
-                            <span class="sign">* (</span>
+                            <div class="sign_group">
+                                <span class="sign">*</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P3_2"></canvas>
                             <span class="sign"> - </span>
                             <canvas id="P3_3"></canvas>
@@ -166,14 +200,17 @@
                         <span id="P3_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">P4</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">P4</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="P4_0"></canvas>
                             <span class="sign">= </span>
                             <canvas id="P4_1"></canvas>
-                            <span class="sign">* (</span>
+                            <div class="sign_group">
+                                <span class="sign">*</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P4_2"></canvas>
                             <span class="sign"> - </span>
                             <canvas id="P4_3"></canvas>
@@ -184,16 +221,22 @@
                         <span id="P4_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">P5</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">P5</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="P5_0"></canvas>
-                            <span class="sign">= (</span>
+                            <div class="sign_group">
+                                <span class="sign">=</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P5_1"></canvas>
                             <span class="sign"> + </span>
                             <canvas id="P5_2"></canvas>
-                            <span class="sign">) * </span>
+                            <div class="sign_group">
+                                <span class="sign">)</span>
+                                <span class="sign">* </span>
+                            </div>
                             <canvas id="P5_3"></canvas>
                         </div>
                     </div>
@@ -201,19 +244,23 @@
                         <span id="P5_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">P6</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">P6</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="P6_0"></canvas>
-                            <span class="sign">=</span>
-                            <span class="sign">(</span>
+                            <div class="sign_group">
+                                <span class="sign">=</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P6_1"></canvas>
                             <span class="sign"> - </span>
                             <canvas id="P6_2"></canvas>
+                            <div class="sign_group">
                                 <span class="sign">)</span>
                                 <span class="sign">*</span>
                                 <span class="sign">(</span>
+                            </div>
                             <canvas id="P6_3"></canvas>
                             <span class="sign"> + </span>
                             <canvas id="P6_4"></canvas>
@@ -224,16 +271,23 @@
                         <span id="P6_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">P7</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white text-white">P7</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="P7_0"></canvas>
-                            <span class="sign">=(</span>
+                            <div class="sign_group">
+                                <span class="sign">=</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P7_1"></canvas>
                             <span class="sign"> - </span>
                             <canvas id="P7_2"></canvas>
-                            <span class="sign">) * (</span>
+                            <div class="sign_group">
+                                <span class="sign">)</span>
+                                <span class="sign">*</span>
+                                <span class="sign">(</span>
+                            </div>
                             <canvas id="P7_3"></canvas>
                             <span class="sign">+</span>
                             <canvas id="P7_4"></canvas>
@@ -244,14 +298,18 @@
                         <span id="P7_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">C1</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">C1</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="C1_0"></canvas>
+                            <span class="sign">=</span>
                             <canvas id="C1_1"></canvas>
+                            <span class="sign">+</span>
                             <canvas id="C1_2"></canvas>
+                            <span class="sign">-</span>
                             <canvas id="C1_3"></canvas>
+                            <span class="sign">+</span>
                             <canvas id="C1_4"></canvas>
                         </div>
                     </div>
@@ -259,44 +317,48 @@
                         <span id="C11_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">C2</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">C2</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="C2_0"></canvas>
+                            <span class="sign">=</span>
                             <canvas id="C2_1"></canvas>
+                            <span class="sign">+</span>
                             <canvas id="C2_2"></canvas>
-                            <canvas id="C2_3"></canvas>
-                            <canvas id="C2_4"></canvas>
                         </div>
                     </div>
                     <div class="card-footer">
                         <span id="C12_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">C3</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">C3</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="C3_0"></canvas>
+                            <span class="sign">=</span>
                             <canvas id="C3_1"></canvas>
+                            <span class="sign">+</span>
                             <canvas id="C3_2"></canvas>
-                            <canvas id="C3_3"></canvas>
-                            <canvas id="C3_4"></canvas>
                         </div>
                     </div>
                     <div class="card-footer">
                         <span id="C21_f"></span>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">C4</div>
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">C4</div>
                     <div class="card-body">
                         <div class="canvas">
                             <canvas id="C4_0"></canvas>
+                            <span class="sign">=</span>
                             <canvas id="C4_1"></canvas>
+                            <span class="sign">+</span>
                             <canvas id="C4_2"></canvas>
+                            <span class="sign">-</span>
                             <canvas id="C4_3"></canvas>
+                            <span class="sign">+</span>
                             <canvas id="C4_4"></canvas>
                         </div>
                     </div>

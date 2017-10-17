@@ -5,6 +5,8 @@
 var SIZE = 1, NormSize = 1;
 var arr1 = null, arr2 = null, result = null;
 
+var maxCellSize=0;
+
 const colorA = {
     color1: 'rgb(91,155,213)',
     color2: 'rgb(237,125,49)',
@@ -92,26 +94,31 @@ function randMatrixArray(size)
     return arr;
 }
 
-function wrapText(context, arr, marginLeft, marginTop, lineHeight, color) {
-    var left = 80;
-    var top = 15;
+function wrapText(context, arr, marginLeft, marginTop, lineHeight, color,colorMode ) {
+    var left = marginLeft;
+    var top = marginTop;
     // lineHeight=12;
+    // console.log('color: '+color+"\n");
     var line = "";
     for (var n = 0; n < arr.length; n++) {
         left = marginLeft;
         for (var i = 0; i < arr.length; i++) {
             line = arr[n][i];
-            if ((i <= (arr.length / 2)) && (i < (arr.length / 2))) {
-                context.fillStyle = color.color1;
-            }
-            if ((n < (arr.length / 2)) && (i >= (arr.length / 2))) {
-                context.fillStyle = color.color2;
-            }
-            if ((n >= (arr.length / 2)) && (i < (arr.length / 2))) {
-                context.fillStyle = color.color3;
-            }
-            if ((n >= (arr.length / 2)) && (i >= (arr.length / 2))) {
-                context.fillStyle = color.color4;
+            if (colorMode ==='multi') {
+                if ((i <= (arr.length / 2)) && (i < (arr.length / 2))) {
+                    context.fillStyle = color.color1;
+                }
+                if ((n < (arr.length / 2)) && (i >= (arr.length / 2))) {
+                    context.fillStyle = color.color2;
+                }
+                if ((n >= (arr.length / 2)) && (i < (arr.length / 2))) {
+                    context.fillStyle = color.color3;
+                }
+                if ((n >= (arr.length / 2)) && (i >= (arr.length / 2))) {
+                    context.fillStyle = color.color4;
+                }
+            }else {
+                context.fillStyle = color;
             }
             context.fillText(line, left, top);
             left += 25;
@@ -119,13 +126,6 @@ function wrapText(context, arr, marginLeft, marginTop, lineHeight, color) {
         top += lineHeight;
     }
 
-}
-
-function wrapSign(context, marginLeft, marginTop, sign) {
-    context.beginPath();
-    context.font = "16pt Arial";
-    context.fillStyle = "#000";
-    context.fillText(sign, marginLeft, marginTop);
 }
 
 function ShowMainMatrix(arr1, arr2, arr3)
@@ -149,38 +149,18 @@ function ShowMainMatrix(arr1, arr2, arr3)
     var marginTop = 12;
     mA.font = mB.font = mC.font = "8pt Arial";
     mA.fillStyle = mB.fillStyle = mC.fillStyle = "#000";
-    wrapText(mA, arr1, 10, marginTop, lineHeight, colorA);
+    wrapText(mA, arr1, 10, marginTop, lineHeight, colorA,'multi');
     // wrapMatrixBrackets(mA, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 
-    wrapText(mB, arr2, 10, marginTop, lineHeight, colorB);
+    wrapText(mB, arr2, 10, marginTop, lineHeight, colorB,'multi');
     // wrapMatrixBrackets(mB, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 
-    wrapText(mC, arr3, 10, marginTop, lineHeight, colorC);
+    wrapText(mC, arr3, 10, marginTop, lineHeight, colorC,'multi');
     // wrapMatrixBrackets(mC, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 }
 
 function clearCanvas(context, height, weight) {
     context.clearRect(0, 0, height, weight);
-}
-
-function wrapMatrix(context, matrix, marginLeft, marginTop, lineHeight) {
-    context.beginPath();
-    var left = marginLeft;
-    var top = marginTop + 7;
-    context.fillStyle = matrix.color;
-    var sizeY = 12 * matrix.array.length;
-    var sizeX = 31 * matrix.array.length;
-    var line = "";
-    for (var n = 0; n < matrix.array.length; n++) {
-        left = marginLeft + 10;
-        for (var i = 0; i < matrix.array.length; i++) {
-            line = matrix.array[n][i];
-            context.fillText(line, left, top);
-            left += 30;
-        }
-        top += lineHeight;
-    }
-    wrapMatrixBrackets(context, sizeX, sizeY, marginLeft, marginTop - 7);
 }
 
 function wrapBracket(context, startPosX, startPosY, height, inverse) {
@@ -208,73 +188,70 @@ function wrapMatrixBrackets(context, matrixWidth, matrixHeight, marginLeft, marg
 
 function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4) {
     var allMatrix = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4, P1, P2, P3, P4, P5, P6, P7];
-    console.log(allMatrix[1].array[0][0]+'\n');
-    // var mtrixArray = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C3, P1, P2, P3, P4, P5, P6, P7];
-    var matrixOrder = [12, 0, 3, 4, 7, 13, 2, 3, 4, 14, 0, 5, 7, 15, 3, 6, 4, 16, 0, 1, 7, 17, 2, 0, 4, 5,
-        18, 1, 3, 6, 7, 8, 12, 15, 16, 18, 9, 14, 16, 10, 13, 15, 11, 12, 13, 14, 17];
-    var matrixQuantityInString = [5, 4, 4, 4, 4, 5, 5, 5, 3, 3, 5];
-    // var symbArr = ['=', '+', 'x', '+', '=', '+', 'x', '=', 'x', '-', '=', 'x', '-', '=', '+', 'x', '=', '-',
-    //     'x', '+', '=', '-', 'x', '+', '=', '+', '-', '+', '=', '+', '=', '+', '=', '-', '+', '-'];
     var mP = {
-        name: 'P',
         P1: {
-            order: [12, 0, 3, 4, 7]
+            order: [12, 0, 3, 4, 7],
+            color : colorP.color1
         },
         P2: {
-            order: [13, 2, 3, 4]
+            order: [13, 2, 3, 4],
+            color : colorP.color2
         },
         P3: {
-            order: [14, 0, 5, 7]
+            order: [14, 0, 5, 7],
+            color : colorP.color3
         },
         P4: {
-            order: [15, 3, 6, 4]
+            order: [15, 3, 6, 4],
+            color : colorP.color4
         },
         P5: {
-            order: [16, 0, 1, 7]
+            order: [16, 0, 1, 7],
+            color : colorP.color5
         },
         P6: {
-            order: [17, 2, 0, 4, 5]
+            order: [17, 2, 0, 4, 5],
+            color : colorP.color6
         },
         P7: {
-            order: [18, 1, 3, 6, 7]
+            order: [18, 1, 3, 6, 7],
+            color : colorP.color7
         }
     };
-
     var mC = {
-        name: "C",
         C1: {
-            order: [7, 8, 12, 15, 16],
-            signs: ['']
+            order: [8, 12, 15, 16, 18]
         },
         C2: {
-            order: []
+            order: [9, 14, 16]
+        },
+        C3:{
+            order:[0, 13, 15]
+        },
+        C4:{
+            order:[11, 12, 13, 14, 17]
         }
     };
-    console.log('output P matrix:\n');
-
     for (var k = 1; k <= 7; k++) {
-        console.log('output P'+k+'\n find array: '+"P" + k+"\n lenght: "+mP['P' + k].length+"\n");
         for (var l = 0; l < mP["P" + k].order.length; l++) {
-            console.log('output P'+k+'_'+l+'\n -lenght: '+mP["P" + k].order.length+'\n');
-            console.log(' -find element: '+'P' + k + '_'+l+'\n');
-            console.log(' -order: '+mP['P'+k].order+'\n\n');
             var context = document.getElementById('P' + k + '_'+l).getContext('2d');
             context.font = "8pt Arial";
-            context.fillStyle = "#000";
+            // context.fillStyle = "#000";
             context.canvas.width = allMatrix[mP['P'+k].order[l]].array.length*25+5;
-            context.canvas.height = allMatrix[mP['P'+k].order[l]].array.length*15;
-            wrapText(context,allMatrix[mP['P'+k].order[l]].array,5,0,12,colorA);
+            context.canvas.height = allMatrix[mP['P'+k].order[l]].array.length*12;
+            wrapText(context,allMatrix[mP['P'+k].order[l]].array,5,0,12,allMatrix[mP['P'+k].order[l]].color);
         }
     }
-}
-
-
-function wrapLine(context, x, y, width) {
-    context.beginPath();
-    context.lineWidth = 4;
-    context.moveTo(x, y);
-    context.lineTo(width, y);
-    context.stroke();
+    for (var i=1; i<=4; i++){
+        for (var j=0; j< mC["C"+i].order.length;j++){
+            var cnx = document.getElementById('C' + i + '_'+j).getContext('2d');
+            cnx.font = "8pt Arial";
+            // cnx.fillStyle = "#000";
+            cnx.canvas.width = allMatrix[mC['C'+i].order[j]].array.length*25+5;
+            cnx.canvas.height = allMatrix[mC['C'+i].order[j]].array.length*12;
+            wrapText(cnx,allMatrix[mC['C'+i].order[j]].array,5,0,12,allMatrix[mC['C'+i].order[j]].color);
+        }
+    }
 }
 
 function DiscreteMatrix(A, startI, startJ, endI, endJ)
@@ -591,10 +568,10 @@ function ApplyInput() {
     arr1 = ReadInput("A", arr1);
     arr2 = ReadInput("B", arr2);
     ShowMainScreen();
-    var outA = document.getElementById("matrixA"),
-        outB = document.getElementById("matrixB");
-    ShowColorMatrix(arr1, outA, "A", colorA11, colorA12, colorA21, colorA22);
-    ShowColorMatrix(arr2, outB, "B", colorB11, colorB12, colorB21, colorB22);
+    // var outA = document.getElementById("matrixA"),
+    //     outB = document.getElementById("matrixB");
+    // ShowColorMatrix(arr1, outA, "A", colorA11, colorA12, colorA21, colorA22);
+    // ShowColorMatrix(arr2, outB, "B", colorB11, colorB12, colorB21, colorB22);
 }
 
 function DeleteArray(arr) {

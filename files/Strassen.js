@@ -1,36 +1,38 @@
 /*     
  Author     : Konstantinov Dmitrii
- e-mail: aser00707@ya.ru
+ e-mail: dmitriy@konstantinov.com.ru
  */
 var SIZE = 1, NormSize = 1;
 var arr1 = null, arr2 = null, result = null;
 
-var colorA = {
-    color1: 'rgb(91,155,213)',
-    color2: 'rgb(237,125,49)',
-    color3: 'rgb(165,165,165)',
-    color4: 'rgb(255,192,0)'
+var maxCellSize=0;
+
+const colorA = {
+    color1: '#5b9bd5',
+    color2: '#ed7d31',
+    color3: '#a5a5a5',
+    color4: '#ffc000'
 };
-var colorB = {
-    color1: 'rgb(112,173,71)',
-    color2: 'rgb(5,99,193)',
-    color3: 'rgb(149,79,114)',
-    color4: 'rgb(165,181,146)'
+const colorB = {
+    color1: '#70ad47',
+    color2: '#0563c1',
+    color3: '#954f72',
+    color4: '#a5b592'
 };
-var colorC = {
-    color1: 'rgb(227,45,145)',
-    color2: 'rgb(78,166,220)',
-    color3: 'rgb(216,217,220)',
-    color4: 'rgb(155,87,211)'
+const colorC = {
+    color1: '#e32d91',
+    color2: '#4ea6dc',
+    color3: '#d8d9dc',
+    color4: '#9b57d3'
 };
-var colorP = {
-    color1: 'rgb(208,146,167)',
-    color2: 'rgb(127,111,111)',
-    color3: 'rgb(65,138,179)',
-    color4: 'rgb(223,83,39)',
-    color5: 'rgb(159,41,54)',
+const colorP = {
+    color1: '#d092a7',
+    color2: '#7f6f6f',
+    color3: '#418ab3',
+    color4: '#df5327',
+    color5: '#9f2936',
     color6: '#996600',
-    color7: 'rgb(181,139,128)'
+    color7: '#b58b80'
 };
 
 function Matrix(array, color) {
@@ -40,10 +42,10 @@ function Matrix(array, color) {
 }
 
 function Initial() {
-    document.getElementById("SizeInput").value = SIZE;
     SIZE = 8;
-
+    document.getElementById("SizeInput").value = SIZE;
     RandMatrix();
+    wrapFormulas();
 }
 
 function ReadSize() {
@@ -54,7 +56,6 @@ function ReadSize() {
     } else {
         alert("Bad size");
     }
-
 }
 
 function isInt(n) {
@@ -62,11 +63,10 @@ function isInt(n) {
 }
 
 function startStrassen() {
+    console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     NormSize = 1;
     var divContent = document.getElementById("content"), divP = document.getElementById("Steps");
     divContent.style.display = divP.style.display = 'block';
-    var outTOP = document.getElementById("canvasTOP");
-    outTOP.width = outTOP.height = 0;
     if (arr1 && arr2) {
         arr1 = NaNtoInt(arr1);
         arr2 = NaNtoInt(arr2);
@@ -76,7 +76,7 @@ function startStrassen() {
             arr2 = AddTo2Matrix(arr2, arr2.length);
         }
         result = multi(arr1, arr2);
-        ShowMainMatrix(arr1, arr2, result, outTOP);
+        ShowMainMatrix(arr1, arr2, result);
     } else {
         divContent.style.display = divP.style.display = 'none';
     }
@@ -95,149 +95,139 @@ function randMatrixArray(size)
     return arr;
 }
 
-function wrapText(context, arr, marginLeft, marginTop, lineHeight, color) {
+function wrapText(context, arr, marginLeft, marginTop, lineHeight, color,colorMode ) {
     var left = marginLeft;
     var top = marginTop;
     var line = "";
+    // if (arr.length<4){
+        context.canvas.style.width=25*arr.length+'px';
+        context.canvas.style.height=12*arr.length+'px';
+    // }
     for (var n = 0; n < arr.length; n++) {
         left = marginLeft;
         for (var i = 0; i < arr.length; i++) {
             line = arr[n][i];
-            if ((i <= (arr.length / 2)) && (i < (arr.length / 2))) {
-                context.fillStyle = color.color1;
-            }
-            if ((n < (arr.length / 2)) && (i >= (arr.length / 2))) {
-                context.fillStyle = color.color2;
-            }
-            if ((n >= (arr.length / 2)) && (i < (arr.length / 2))) {
-                context.fillStyle = color.color3;
-            }
-            if ((n >= (arr.length / 2)) && (i >= (arr.length / 2))) {
-                context.fillStyle = color.color4;
+            if (colorMode ==='multi') {
+                if ((i <= (arr.length / 2)) && (i < (arr.length / 2))) {
+                    context.fillStyle = color.color1;
+                }
+                if ((n < (arr.length / 2)) && (i >= (arr.length / 2))) {
+                    context.fillStyle = color.color2;
+                }
+                if ((n >= (arr.length / 2)) && (i < (arr.length / 2))) {
+                    context.fillStyle = color.color3;
+                }
+                if ((n >= (arr.length / 2)) && (i >= (arr.length / 2))) {
+                    context.fillStyle = color.color4;
+                }
+            }else {
+                context.fillStyle = color;
             }
             context.fillText(line, left, top);
-            left += 24;
+            left += 25;
         }
         top += lineHeight;
     }
 
 }
 
-function wrapSign(context, marginLeft, marginTop, sign) {
-    context.beginPath();
-    context.font = "16pt Arial";
-    context.fillStyle = "#000";
-    context.fillText(sign, marginLeft, marginTop);
-}
-
-function ShowMainMatrix(arr1, arr2, arr3, out)
+function ShowMainMatrix(arr1, arr2, arr3)
 //Вывод матрицы
 {
-    var canvas = out;
-    var context = canvas.getContext("2d");
-    context.clearRect(0, 0, 12 * arr1.length, 20 * arr1.length);
-    canvas.width = (24 * arr1.length + 40) * 3;
-    canvas.height = 12 * arr1.length + 6;
+    var mA = document.getElementById("canvasA").getContext("2d");
+    var mB = document.getElementById("canvasB").getContext("2d");
+    var mC = document.getElementById("canvasC").getContext("2d");
+
+    var mWidth = 25 * arr1.length ,
+        mHeight = 13 * arr1.length;
+    mA.canvas.width = mB.canvas.width = mC.canvas.width = mWidth;
+    mA.canvas.height = mB.canvas.height = mC.canvas.height = mHeight;
+    clearCanvas(mA, mHeight, mWidth);
+    clearCanvas(mB, mHeight, mWidth);
+    clearCanvas(mC, mHeight, mWidth);
+
     var lineHeight = 12;
     var marginTop = 12;
-    context.font = "8pt Arial";
-    context.fillStyle = "#000";
-    wrapText(context, arr1, 6, marginTop, lineHeight, colorA);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 0, 2);
-    wrapText(context, arr2, 24 * arr1.length + 46, marginTop, lineHeight, colorB);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, 23 * arr1.length + 46, 2);
-    wrapText(context, arr3, 24 * arr1.length * 2 + 82, marginTop, lineHeight, colorC);
-    wrapMatrixBrackets(context, 24 * arr1.length, 12 * arr1.length - marginTop + 3, (24 * arr1.length + 40) * 2, 2);
+    mA.font = mB.font = mC.font = "8pt Arial";
+    mA.fillStyle = mB.fillStyle = mC.fillStyle = "#000";
+    wrapText(mA, arr1, 10, marginTop, lineHeight, colorA,'multi');
+    // wrapMatrixBrackets(mA, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+
+    wrapText(mB, arr2, 10, marginTop, lineHeight, colorB,'multi');
+    // wrapMatrixBrackets(mB, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
+
+    wrapText(mC, arr3, 10, marginTop, lineHeight, colorC,'multi');
+    // wrapMatrixBrackets(mC, 25.5 * arr1.length, 11.5 * arr1.length, 0, 0);
 }
 
-function wrapMatrix(context, matrix, marginLeft, marginTop, lineHeight) {
-    context.beginPath();
-    var left = marginLeft;
-    var top = marginTop + 7;
-    context.fillStyle = matrix.color;
-    var sizeY = 12 * matrix.array.length;
-    var sizeX = 31 * matrix.array.length;
-    var line = "";
-    for (var n = 0; n < matrix.array.length; n++) {
-        left = marginLeft + 10;
-        for (var i = 0; i < matrix.array.length; i++) {
-            line = matrix.array[n][i];
-            context.fillText(line, left, top);
-            left += 30;
-        }
-        top += lineHeight;
-    }
-    wrapMatrixBrackets(context, sizeX, sizeY, marginLeft, marginTop - 7);
-}
-
-function wrapBracket(context, startPosX, startPosY, height, inverse) {
-    context.beginPath();
-    context.lineWidth = 2;
-    height += 5;
-    var width = 20;
-    if (inverse) {
-        width *= -1;
-    }
-    context.beginPath();
-    context.moveTo(startPosX, startPosY);
-    context.lineTo(startPosX + width, startPosY);
-    context.moveTo(startPosX, startPosY);
-    context.lineTo(startPosX, startPosY + height + 5);
-    context.moveTo(startPosX, startPosY + height + 5);
-    context.lineTo(startPosX + width, startPosY + height + 5);
-    context.stroke();
-}
-
-function wrapMatrixBrackets(context, matrixWidth, matrixHeight, marginLeft, marginTop) {
-    wrapBracket(context, marginLeft, marginTop, matrixHeight, 0);
-    wrapBracket(context, marginLeft + matrixWidth, marginTop, matrixHeight, 1);
+function clearCanvas(context, height, weight) {
+    context.clearRect(0, 0, height, weight);
 }
 
 function ShowPMatrix(P1, P2, P3, P4, P5, P6, P7, A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4) {
-    var canvas = document.getElementById("canvasP");
-    var context = canvas.getContext("2d");
-    context.clearRect(0, 0, 12 * arr1.length, 20 * arr1.length);
-    canvas.width = (40 * P1.array.length) * 5.1;
-    canvas.height = 12 * (P1.array.length) * 11 + 25 * 11;
-    var marginLeft = 10;
-    var lineHeight = 12;
-    var sizeY = lineHeight * P1.array.length;
-    var sizeX = 40 * P1.array.length;
-    var marginTop = 25;
-    var marginLeftSign = P1.array.length * 34.5;
-    context.beginPath();
-    context.font = "8pt Arial";
-    context.fillStyle = "#000";
-    var mtrixArray = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C3, P1, P2, P3, P4, P5, P6, P7];
-    var matrixOrder = [12, 0, 3, 4, 7, 13, 2, 3, 4, 14, 0, 5, 7, 15, 3, 6, 4, 16, 0, 1, 7, 17, 2, 0, 4, 5,
-        18, 1, 3, 6, 7, 8, 12, 15, 16, 18, 9, 14, 16, 10, 13, 15, 11, 12, 13, 14, 17];
-    var matrixQuantityInString = [5, 4, 4, 4, 4, 5, 5, 5, 3, 3, 5];
-    var symbArr = ['=', '+', 'x', '+', '=', '+', 'x', '=', 'x', '-', '=', 'x', '-', '=', '+', 'x', '=', '-',
-        'x', '+', '=', '-', 'x', '+', '=', '+', '-', '+', '=', '+', '=', '+', '=', '-', '+', '-'];
-    for (var i = 0, top = 10, cur = 0, signcount = 0; i < 11; i++, top += marginTop + sizeY) {
-        for (var j = 0, left = 0; j < matrixQuantityInString[i]; j++, left += marginLeft + sizeX) {
-            wrapMatrix(context, mtrixArray[matrixOrder[cur]], left, top, lineHeight);
-            if (matrixQuantityInString[i] !== (j + 1)) {
-                wrapSign(context, left + marginLeftSign, top + sizeY / 2 + 5, symbArr[signcount]);
-                signcount++;
-            }
-            cur++;
-            context.font = "8pt Arial";
-            context.fillStyle = "#000";
+    var allMatrix = [A11, A12, A21, A22, B11, B12, B21, B22, C1, C2, C3, C4, P1, P2, P3, P4, P5, P6, P7];
+    var mP = {
+        P1: {
+            order: [12, 0, 3, 4, 7],
+            color : colorP.color1
+        },
+        P2: {
+            order: [13, 2, 3, 4],
+            color : colorP.color2
+        },
+        P3: {
+            order: [14, 0, 5, 7],
+            color : colorP.color3
+        },
+        P4: {
+            order: [15, 3, 6, 4],
+            color : colorP.color4
+        },
+        P5: {
+            order: [16, 0, 1, 7],
+            color : colorP.color5
+        },
+        P6: {
+            order: [17, 2, 0, 4, 5],
+            color : colorP.color6
+        },
+        P7: {
+            order: [18, 1, 3, 6, 7],
+            color : colorP.color7
         }
-        if (i === 7) {
-            wrapLine(context, 0, top - marginTop + 10, canvas.width);
+    };
+    var mC = {
+        C1: {
+            order: [8, 12, 15, 16, 18]
+        },
+        C2: {
+            order: [9, 14, 16]
+        },
+        C3:{
+            order:[0, 13, 15]
+        },
+        C4:{
+            order:[11, 12, 13, 14, 17]
+        }
+    };
+    for (var k = 1; k <= 7; k++) {
+        for (var l = 0; l < mP["P" + k].order.length; l++) {
+            var context = document.getElementById('P' + k + '_'+l).getContext('2d');
+            context.font = "8pt Arial";
+            context.canvas.width = allMatrix[mP['P'+k].order[l]].array.length*25+5;
+            context.canvas.height = allMatrix[mP['P'+k].order[l]].array.length*12;
+            wrapText(context,allMatrix[mP['P'+k].order[l]].array,5,10,12,allMatrix[mP['P'+k].order[l]].color);
         }
     }
-}
-
-
-function wrapLine(context, x, y, width) {
-    context.beginPath();
-    context.lineWidth = 4;
-    context.moveTo(x, y);
-    context.lineTo(width, y);
-    context.stroke();
+    for (var i=1; i<=4; i++){
+        for (var j=0; j< mC["C"+i].order.length;j++){
+            var cnx = document.getElementById('C' + i + '_'+j).getContext('2d');
+            cnx.font = "8pt Arial";
+            cnx.canvas.width = allMatrix[mC['C'+i].order[j]].array.length*25+5;
+            cnx.canvas.height = allMatrix[mC['C'+i].order[j]].array.length*12;
+            wrapText(cnx,allMatrix[mC['C'+i].order[j]].array,5,10,12,allMatrix[mC['C'+i].order[j]].color);
+        }
+    }
 }
 
 function DiscreteMatrix(A, startI, startJ, endI, endJ)
@@ -523,12 +513,12 @@ function ReadInput(InputName, arr) {
 function InputMatrix() {
     document.getElementById("SizeManageMain").style.display =
         document.getElementById("Steps").style.display =
-            document.getElementById("canvasTOP").style.display =
-                document.getElementById("Operations").style.display = 'none';
+            // document.getElementById("canvasTOP").style.display =
+            document.getElementById("Operations").style.display = 'none';
     document.getElementById("SizeManageInput").style.display = 'inline-block';
     document.getElementById("content").style.display = document.getElementById("ApplyMatrix").style.display = 'block';
     document.getElementById("matrixA").style.display = 'inline-block';
-    document.getElementById("matrixB").style.cssText = 'display:inline-block ;margin-left:3%';
+    document.getElementById("matrixB").style.cssText = 'display:inline-block; margin-left:3%';
     CreateInputs(document.getElementById("matrixA"), "A");
     SetInputMatrix("A", arr1);
     CreateInputs(document.getElementById("matrixB"), "B");
@@ -541,8 +531,8 @@ function ShowMainScreen() {
             document.getElementById("matrixB").style.display =
                 document.getElementById("ApplyMatrix").style.display = 'none';
     document.getElementById("content").style.display =
-        document.getElementById("canvasTOP").style.display = 'block';
-    document.getElementById("SizeManageMain").style.display = 'inline-block';
+        // document.getElementById("canvasTOP").style.display = 'block';
+        document.getElementById("SizeManageMain").style.display = 'inline-block';
     document.getElementById("Operations").style.display = 'block';
     startStrassen();
 }
@@ -554,10 +544,6 @@ function ApplyInput() {
     arr1 = ReadInput("A", arr1);
     arr2 = ReadInput("B", arr2);
     ShowMainScreen();
-    var outA = document.getElementById("matrixA"),
-        outB = document.getElementById("matrixB");
-    ShowColorMatrix(arr1, outA, "A", colorA11, colorA12, colorA21, colorA22);
-    ShowColorMatrix(arr2, outB, "B", colorB11, colorB12, colorB21, colorB22);
 }
 
 function DeleteArray(arr) {
@@ -565,7 +551,6 @@ function DeleteArray(arr) {
         for (var i = 0; i < arr.length; i++) {
             delete arr[i];
         }
-        delete arr;
     }
     return null;
 }
@@ -594,26 +579,4 @@ function NaNtoInt(arr) {
         }
     }
     return arr;
-}
-
-function DisplBrackets(flag, ClassName, size) {
-    var divs = document.getElementsByTagName("DIV");
-    var param;
-    if (flag === 1) {
-        param = 'block';
-    }
-    if (flag === 0) {
-        param = 'none';
-    }
-    if (!size) {
-        size = arr1.length > SIZE ? arr1.length : SIZE;
-        if (size < NormSize) {
-            size = NormSize;
-        }
-    }
-    for (var i = 0; i < divs.length; i++)
-        if (divs[i].className === ClassName) {
-            divs[i].style.display = 'block';
-            divs[i].style.fontSize = size * 12.5 + 'px';
-        }
 }

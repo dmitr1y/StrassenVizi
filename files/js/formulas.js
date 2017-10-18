@@ -1,7 +1,4 @@
 function wrapFormulas() {
-
-    // document.getElementById('P1_f').innerHTML=katex.renderToString("P1 = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}");
-
     document.getElementById('C_f').innerHTML=katex.renderToString("A * B = C");
 
     document.getElementById('P1_f').innerHTML=katex.renderToString("P1 = (A_{1,1} + A_{2,2})*(B_{1,1} + B_{2,2})");
@@ -17,5 +14,20 @@ function wrapFormulas() {
     document.getElementById('C21_f').innerHTML=katex.renderToString("C_{2,1} = P_2 + P_4");
     document.getElementById('C22_f').innerHTML=katex.renderToString("C_{2,2} = P_1 + P_3 - P_2 + P_6");
 
+    wrapSigns();
+}
 
+function wrapSigns() {
+    wrapSign('sign-plus','+');
+    wrapSign('sign-minus','-');
+    wrapSign('sign-equal','=');
+    wrapSign('sign-multi','*');
+    wrapSign('sign-lbracket','(');
+    wrapSign('sign-rbracket',')');
+}
+
+function wrapSign(className,sign) {
+    var blocks=document.getElementsByClassName(className);
+    for (var i=0; i<blocks.length;i++)
+        blocks[i].innerHTML=katex.renderToString(sign);
 }

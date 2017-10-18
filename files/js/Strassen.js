@@ -8,31 +8,31 @@ var arr1 = null, arr2 = null, result = null;
 var maxCellSize=0;
 
 const colorA = {
-    color1: 'rgb(91,155,213)',
-    color2: 'rgb(237,125,49)',
-    color3: 'rgb(165,165,165)',
-    color4: 'rgb(255,192,0)'
+    color1: '#5b9bd5',
+    color2: '#ed7d31',
+    color3: '#a5a5a5',
+    color4: '#ffc000'
 };
 const colorB = {
-    color1: 'rgb(112,173,71)',
-    color2: 'rgb(5,99,193)',
-    color3: 'rgb(149,79,114)',
-    color4: 'rgb(165,181,146)'
+    color1: '#70ad47',
+    color2: '#0563c1',
+    color3: '#954f72',
+    color4: '#a5b592'
 };
 const colorC = {
-    color1: 'rgb(227,45,145)',
-    color2: 'rgb(78,166,220)',
-    color3: 'rgb(216,217,220)',
-    color4: 'rgb(155,87,211)'
+    color1: '#e32d91',
+    color2: '#4ea6dc',
+    color3: '#d8d9dc',
+    color4: '#9b57d3'
 };
 const colorP = {
-    color1: 'rgb(208,146,167)',
-    color2: 'rgb(127,111,111)',
-    color3: 'rgb(65,138,179)',
-    color4: 'rgb(223,83,39)',
-    color5: 'rgb(159,41,54)',
+    color1: '#d092a7',
+    color2: '#7f6f6f',
+    color3: '#418ab3',
+    color4: '#df5327',
+    color5: '#9f2936',
     color6: '#996600',
-    color7: 'rgb(181,139,128)'
+    color7: '#b58b80'
 };
 
 function Matrix(array, color) {
@@ -99,6 +99,8 @@ function wrapText(context, arr, marginLeft, marginTop, lineHeight, color,colorMo
     var left = marginLeft;
     var top = marginTop;
     var line = "";
+    context.canvas.style.width=25*arr.length+'px';
+    context.canvas.style.height=12*arr.length+'px';
     for (var n = 0; n < arr.length; n++) {
         left = marginLeft;
         for (var i = 0; i < arr.length; i++) {
